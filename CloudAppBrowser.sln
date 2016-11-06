@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudAppBrowser.Core", "CloudAppBrowser.Core\CloudAppBrowser.Core.csproj", "{488F355B-80B1-4ECF-AE65-2EE6ABC30656}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudAppBrowser.Core.Tests", "CloudAppBrowser.Core.Tests\CloudAppBrowser.Core.Tests.csproj", "{A190B030-C70B-4EF4-920A-F4A44B615B51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudAppBrowser.ViewModels", "CloudAppBrowser.ViewModels\CloudAppBrowser.ViewModels.csproj", "{80200338-84FB-49D3-8D9B-E56EC478FBBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudAppBrowser", "CloudAppBrowser\CloudAppBrowser.csproj", "{0DA36DDF-CA1A-405C-B2BB-E039898C5258}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudAppBrowser.Views", "CloudAppBrowser.Views\CloudAppBrowser.Views.csproj", "{561E1534-0021-45D9-ACB5-515D3FC95DFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{488F355B-80B1-4ECF-AE65-2EE6ABC30656}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{488F355B-80B1-4ECF-AE65-2EE6ABC30656}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{488F355B-80B1-4ECF-AE65-2EE6ABC30656}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{488F355B-80B1-4ECF-AE65-2EE6ABC30656}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A190B030-C70B-4EF4-920A-F4A44B615B51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A190B030-C70B-4EF4-920A-F4A44B615B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A190B030-C70B-4EF4-920A-F4A44B615B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A190B030-C70B-4EF4-920A-F4A44B615B51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80200338-84FB-49D3-8D9B-E56EC478FBBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80200338-84FB-49D3-8D9B-E56EC478FBBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80200338-84FB-49D3-8D9B-E56EC478FBBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80200338-84FB-49D3-8D9B-E56EC478FBBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA36DDF-CA1A-405C-B2BB-E039898C5258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA36DDF-CA1A-405C-B2BB-E039898C5258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA36DDF-CA1A-405C-B2BB-E039898C5258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA36DDF-CA1A-405C-B2BB-E039898C5258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{561E1534-0021-45D9-ACB5-515D3FC95DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{561E1534-0021-45D9-ACB5-515D3FC95DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{561E1534-0021-45D9-ACB5-515D3FC95DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{561E1534-0021-45D9-ACB5-515D3FC95DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
