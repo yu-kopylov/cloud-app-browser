@@ -1,7 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Form
   xmlns="http://schema.picoe.ca/eto.forms" 
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="My Form"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Cloud App Browser"
+  Width="800"
+  Height="640"
   >
-	<Label Text="Some Content" />
+  <Splitter>
+    <Splitter.Panel1>
+      <GroupBox Text="Environments">
+        <TreeView ID="SubsystemTree"/>
+      </GroupBox>
+    </Splitter.Panel1>
+    <Splitter.Panel2>
+      <GroupBox ID="SubsystemPanel" Text="{Binding SubsystemName}">
+      </GroupBox>
+    </Splitter.Panel2>
+  </Splitter>
 </Form>
