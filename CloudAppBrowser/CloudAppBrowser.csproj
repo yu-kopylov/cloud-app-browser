@@ -62,6 +62,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CloudAppBrowser.Core\CloudAppBrowser.Core.csproj">
+      <Project>{488F355B-80B1-4ECF-AE65-2EE6ABC30656}</Project>
+      <Name>CloudAppBrowser.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CloudAppBrowser.ViewModels\CloudAppBrowser.ViewModels.csproj">
       <Project>{80200338-84FB-49D3-8D9B-E56EC478FBBF}</Project>
       <Name>CloudAppBrowser.ViewModels</Name>

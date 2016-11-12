@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using CloudAppBrowser.Core;
+using CloudAppBrowser.Core.Services;
 using CloudAppBrowser.ViewModels;
-using CloudAppBrowser.ViewModels.Subsystems;
 using CloudAppBrowser.Views;
 using Eto;
 using Eto.Forms;
@@ -15,9 +15,14 @@ namespace CloudAppBrowser
         {
             Application application = new Application(Platform.Detect);
 
-            MainFormViewModel viewModel = new MainFormViewModel();
-            viewModel.AddEnvironment(new EnvironmentSubsystemViewModel { Name = "Env1" } );
+            AppBrowser appBrowser = new AppBrowser();
+            appBrowser.Environments.Add(new AppEnvironment
+            {
+                Name = "Env1",
+                Services = {new DockerService {Name = "Docker1"}}
+            });
 
+            MainFormViewModel viewModel = new MainFormViewModel(appBrowser);
             MainForm mainForm = new MainForm(viewModel);
 
             application.Run(mainForm);

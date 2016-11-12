@@ -44,7 +44,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppBrowser.cs" />
     <Compile Include="Configuration\AppConfig.cs" />
+    <Compile Include="Services\DockerService.cs" />
+    <Compile Include="AppEnvironment.cs" />
+    <Compile Include="Services\EurekaService.cs" />
+    <Compile Include="Services\IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

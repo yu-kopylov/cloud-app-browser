@@ -14,7 +14,7 @@ namespace CloudAppBrowser.Views
 
         public ViewResolver()
         {
-            constructors.Add(typeof(EnvironmentSubsystemViewModel), () => new EnvironmentSubsystemView());
+            constructors.Add(typeof(AppEnvironmentSubsystemViewModel), () => new AppEnvironmentSubsystemView());
         }
 
         public Panel CreatePanel(object viewModel)

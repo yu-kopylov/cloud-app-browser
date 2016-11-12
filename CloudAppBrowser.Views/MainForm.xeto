@@ -5,7 +5,7 @@
   Width="800"
   Height="640"
   >
-  <Splitter>
+  <Splitter Position="200">
     <Splitter.Panel1>
       <GroupBox Text="Environments">
         <TreeView ID="SubsystemTree"/>
