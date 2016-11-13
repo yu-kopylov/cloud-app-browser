@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Subsystems\DockerContainerView.xeto.cs">
+      <DependentUpon>DockerContainerView.xeto</DependentUpon>
+    </Compile>
     <Compile Include="Subsystems\DockerSubsystemView.xeto.cs">
       <DependentUpon>DockerSubsystemView.xeto</DependentUpon>
     </Compile>
@@ -75,6 +78,9 @@
     <None Include="packages.config" />
     <EmbeddedResource Include="Subsystems\AppEnvironmentSubsystemView.xeto" />
     <EmbeddedResource Include="Subsystems\DockerSubsystemView.xeto">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subsystems\DockerContainerView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

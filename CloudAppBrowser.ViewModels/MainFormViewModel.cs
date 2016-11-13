@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CloudAppBrowser.Core;
 using CloudAppBrowser.Core.Services;
+using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels.Subsystems;
+using CloudAppBrowser.ViewModels.Subsystems.Docker;
 
 namespace CloudAppBrowser.ViewModels
 {

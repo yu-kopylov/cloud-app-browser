@@ -2,6 +2,7 @@
 using System.IO;
 using CloudAppBrowser.Core;
 using CloudAppBrowser.Core.Services;
+using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels;
 using CloudAppBrowser.Views;
 using Eto;

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Panel
+  xmlns="http://schema.picoe.ca/eto.forms" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  >
+  <TabControl>
+    <TabPage Text="Info">
+    </TabPage>
+    <TabPage Text="Logs">
+      <TableLayout>
+        <TableRow>
+          <TableCell>
+            <Button Text="Enable" Click="EnableLogs"/>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>
+            <TextArea ReadOnly="True" Text="{Binding Log}"/>
+          </TableCell>
+        </TableRow>
+      </TableLayout>
+    </TabPage>
+  </TabControl>
+</Panel>

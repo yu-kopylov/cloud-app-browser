@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CloudAppBrowser.ViewModels.Subsystems;
+using CloudAppBrowser.ViewModels.Subsystems.Docker;
 using CloudAppBrowser.Views.Subsystems;
 using Eto.Forms;
 

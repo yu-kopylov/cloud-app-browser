@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Subsystems\Docker\DockerContainerViewModel.cs" />
     <Compile Include="ViewContext.cs" />
     <Compile Include="SubsystemTreeNode.cs" />
     <Compile Include="Subsystems\AppEnvironmentSubsystemViewModel.cs" />
-    <Compile Include="Subsystems\DockerSubsystemViewModel.cs" />
+    <Compile Include="Subsystems\Docker\DockerSubsystemViewModel.cs" />
     <Compile Include="Subsystems\ISubsystemViewModel.cs" />
     <Compile Include="MainFormViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

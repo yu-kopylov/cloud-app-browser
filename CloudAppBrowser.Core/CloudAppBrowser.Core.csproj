@@ -66,8 +66,9 @@
     <Compile Include="BasicThreadPool.cs" />
     <Compile Include="CertificateUtils.cs" />
     <Compile Include="Configuration\AppConfig.cs" />
-    <Compile Include="Services\DockerContainer.cs" />
-    <Compile Include="Services\DockerService.cs" />
+    <Compile Include="Services\Docker\DockerLogReader.cs" />
+    <Compile Include="Services\Docker\DockerContainer.cs" />
+    <Compile Include="Services\Docker\DockerService.cs" />
     <Compile Include="AppEnvironment.cs" />
     <Compile Include="Services\EurekaService.cs" />
     <Compile Include="Services\IService.cs" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CloudAppBrowser.ViewModels.Subsystems;
+using CloudAppBrowser.ViewModels.Subsystems.Docker;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
 
@@ -17,6 +17,8 @@ namespace CloudAppBrowser.Views.Subsystems
         protected TextBoxCell CreatedCell;
         protected TextBoxCell StateCell;
 
+        protected DockerContainerView ContainerView;
+
         public DockerSubsystemView()
         {
             XamlReader.Load(this);
@@ -25,11 +27,24 @@ namespace CloudAppBrowser.Views.Subsystems
             ImageIdCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.ImageId);
             CreatedCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.Created);
             StateCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.State);
+            ContainersGridView.SelectionChanged += ContainersGridViewOnSelectionChanged;
+        }
+
+        private void ContainersGridViewOnSelectionChanged(object sender, EventArgs eventArgs)
+        {
+            List<DockerContainerViewModel> containers = ContainersGridView
+                .SelectedItems
+                .Cast<DockerContainerViewModel>()
+                .ToList();
+            DockerContainerViewModel container = (containers.Count == 1) ? containers[0] : null;
+            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel) DataContext;
+            viewModel.SelectedContainer = container;
+            ContainerView.DataContext = viewModel.SelectedContainer;
         }
 
         protected void RefreshContainerList(object sender, EventArgs e)
         {
-            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel)DataContext;
+            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel) DataContext;
             viewModel.RefreshContainerList();
         }
 
@@ -61,7 +76,7 @@ namespace CloudAppBrowser.Views.Subsystems
                 MessageBox.Show(this.Parent, "No containers are selected.");
                 return;
             }
-            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel)DataContext;
+            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel) DataContext;
             viewModel.StopContainers(containerIds);
         }
     }

@@ -1,6 +1,7 @@
 using System;
+using System.IO;
 
-namespace CloudAppBrowser.Core.Services
+namespace CloudAppBrowser.Core.Services.Docker
 {
     public class DockerContainer
     {
@@ -9,5 +10,8 @@ namespace CloudAppBrowser.Core.Services
         public string ImageId { get; set; }
         public DateTime Created { get; set; }
         public string State { get; set; }
+        public string Log { get; set; }
+
+        internal Stream Stream { get; set; }
     }
 }
