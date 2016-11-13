@@ -1,5 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using CloudAppBrowser.Core.Configuration;
+using CloudAppBrowser.Core.Services;
 using NUnit.Framework;
 
 namespace CloudAppBrowser.Core.Tests.Configuration

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Panel
+  xmlns="http://schema.picoe.ca/eto.forms" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  >
+  <GridView DataStore="{Binding Containers}">
+    <GridColumn HeaderText="Id">
+      <GridColumn.DataCell>
+        <TextBoxCell ID="IdCell"/>
+      </GridColumn.DataCell>
+    </GridColumn>
+    <GridColumn HeaderText="Image">
+      <GridColumn.DataCell>
+        <TextBoxCell ID="ImageCell"/>
+      </GridColumn.DataCell>
+    </GridColumn>
+    <GridColumn HeaderText="ImageId">
+      <GridColumn.DataCell>
+        <TextBoxCell ID="ImageIdCell"/>
+      </GridColumn.DataCell>
+    </GridColumn>
+    <GridColumn HeaderText="Created">
+      <GridColumn.DataCell>
+        <TextBoxCell ID="CreatedCell"/>
+      </GridColumn.DataCell>
+    </GridColumn>
+    <GridColumn HeaderText="State">
+      <GridColumn.DataCell>
+        <TextBoxCell ID="StateCell"/>
+      </GridColumn.DataCell>
+    </GridColumn>
+  </GridView>
+</Panel>

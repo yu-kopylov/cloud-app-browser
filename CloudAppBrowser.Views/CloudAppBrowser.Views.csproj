@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Subsystems\DockerSubsystemView.xeto.cs">
+      <DependentUpon>DockerSubsystemView.xeto</DependentUpon>
+    </Compile>
     <Compile Include="ViewResolver.cs" />
     <Compile Include="MainForm.xeto.cs">
       <DependentUpon>MainForm.xeto</DependentUpon>
@@ -71,6 +74,9 @@
     <EmbeddedResource Include="MainForm.xeto" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Subsystems\AppEnvironmentSubsystemView.xeto" />
+    <EmbeddedResource Include="Subsystems\DockerSubsystemView.xeto">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

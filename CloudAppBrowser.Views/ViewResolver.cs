@@ -15,6 +15,7 @@ namespace CloudAppBrowser.Views
         public ViewResolver()
         {
             constructors.Add(typeof(AppEnvironmentSubsystemViewModel), () => new AppEnvironmentSubsystemView());
+            constructors.Add(typeof(DockerSubsystemViewModel), () => new DockerSubsystemView());
         }
 
         public Panel CreatePanel(object viewModel)
