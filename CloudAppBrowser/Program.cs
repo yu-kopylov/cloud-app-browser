@@ -16,6 +16,8 @@ namespace CloudAppBrowser
         {
             Application application = new Application(Platform.Detect);
 
+            ViewContext.Instance = new EtoViewContext();
+
             DockerService service = new DockerService();
             service.Name = "Docker";
             string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -35,6 +37,14 @@ namespace CloudAppBrowser
             MainForm mainForm = new MainForm(viewModel);
 
             application.Run(mainForm);
+        }
+    }
+
+    internal class EtoViewContext : ViewContext
+    {
+        public override void Invoke(Action action)
+        {
+            Application.Instance.Invoke(action);
         }
     }
 }

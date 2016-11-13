@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewContext.cs" />
     <Compile Include="SubsystemTreeNode.cs" />
     <Compile Include="Subsystems\AppEnvironmentSubsystemViewModel.cs" />
     <Compile Include="Subsystems\DockerSubsystemViewModel.cs" />

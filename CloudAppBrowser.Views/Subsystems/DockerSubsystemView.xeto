@@ -3,31 +3,57 @@
   xmlns="http://schema.picoe.ca/eto.forms" 
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   >
-  <GridView DataStore="{Binding Containers}">
-    <GridColumn HeaderText="Id">
-      <GridColumn.DataCell>
-        <TextBoxCell ID="IdCell"/>
-      </GridColumn.DataCell>
-    </GridColumn>
-    <GridColumn HeaderText="Image">
-      <GridColumn.DataCell>
-        <TextBoxCell ID="ImageCell"/>
-      </GridColumn.DataCell>
-    </GridColumn>
-    <GridColumn HeaderText="ImageId">
-      <GridColumn.DataCell>
-        <TextBoxCell ID="ImageIdCell"/>
-      </GridColumn.DataCell>
-    </GridColumn>
-    <GridColumn HeaderText="Created">
-      <GridColumn.DataCell>
-        <TextBoxCell ID="CreatedCell"/>
-      </GridColumn.DataCell>
-    </GridColumn>
-    <GridColumn HeaderText="State">
-      <GridColumn.DataCell>
-        <TextBoxCell ID="StateCell"/>
-      </GridColumn.DataCell>
-    </GridColumn>
-  </GridView>
+  <Splitter Orientation="Vertical">
+    <Splitter.Panel1>
+      <GridView ID="ContainersGridView" DataStore="{Binding Containers}" AllowMultipleSelection="True">
+        <GridColumn HeaderText="Id">
+          <GridColumn.DataCell>
+            <TextBoxCell ID="IdCell"/>
+          </GridColumn.DataCell>
+        </GridColumn>
+        <GridColumn HeaderText="Image">
+          <GridColumn.DataCell>
+            <TextBoxCell ID="ImageCell"/>
+          </GridColumn.DataCell>
+        </GridColumn>
+        <GridColumn HeaderText="ImageId">
+          <GridColumn.DataCell>
+            <TextBoxCell ID="ImageIdCell"/>
+          </GridColumn.DataCell>
+        </GridColumn>
+        <GridColumn HeaderText="Created">
+          <GridColumn.DataCell>
+            <TextBoxCell ID="CreatedCell"/>
+          </GridColumn.DataCell>
+        </GridColumn>
+        <GridColumn HeaderText="State">
+          <GridColumn.DataCell>
+            <TextBoxCell ID="StateCell"/>
+          </GridColumn.DataCell>
+        </GridColumn>
+      </GridView>
+    </Splitter.Panel1>
+    <Splitter.Panel2>
+      <TableLayout>
+        <TableRow>
+          <TableCell>
+            <StackLayout Orientation="Horizontal">
+              <Button Text="Start" Click="StartContainers"/>
+              <Button Text="Stop" Click="StopContainers"/>
+            </StackLayout>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>
+            <TabControl>
+              <TabPage Text="Info">
+              </TabPage>
+              <TabPage Text="Logs">
+              </TabPage>
+            </TabControl>
+          </TableCell>
+        </TableRow>
+      </TableLayout>
+    </Splitter.Panel2>
+  </Splitter>
 </Panel>

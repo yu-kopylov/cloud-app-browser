@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using CloudAppBrowser.Core.Services;
 
 namespace CloudAppBrowser.ViewModels.Subsystems
@@ -7,7 +9,7 @@ namespace CloudAppBrowser.ViewModels.Subsystems
     public class DockerSubsystemViewModel : ISubsystemViewModel
     {
         public string Name { get; set; }
-        public List<DockerContainerViewModel> Containers { get; } = new List<DockerContainerViewModel>();
+        public ObservableCollection<DockerContainerViewModel> Containers { get; } = new ObservableCollection<DockerContainerViewModel>();
 
         private readonly DockerService service;
 
@@ -15,13 +17,25 @@ namespace CloudAppBrowser.ViewModels.Subsystems
         {
             this.service = service;
             Name = service.Name;
+
+            service.ContainersChanged += () => ViewContext.Instance.Invoke(UpdateContainerList);
             UpdateContainerList();
+        }
+
+        public void StartContainers(List<string> containerIds)
+        {
+            service.StartContainers(containerIds);
+        }
+
+        public void StopContainers(List<string> containerIds)
+        {
+            service.StopContainers(containerIds);
         }
 
         private void UpdateContainerList()
         {
             Containers.Clear();
-            foreach (DockerContainer container in service.Containers)
+            foreach (DockerContainer container in service.GetContainers().OrderBy(s => s.Image).ThenBy(s => s.Id))
             {
                 DockerContainerViewModel containerViewModel = new DockerContainerViewModel(container);
                 Containers.Add(containerViewModel);
