@@ -21,7 +21,7 @@ namespace CloudAppBrowser.Core.Services
         //todo: Dispose?
         private readonly object monitor = new object();
         private DockerClient client;
-        private List<DockerContainer> containers = new List<DockerContainer>();
+        private readonly List<DockerContainer> containers = new List<DockerContainer>();
 
         static DockerService()
         {
@@ -39,6 +39,11 @@ namespace CloudAppBrowser.Core.Services
             DockerClientConfiguration config = new DockerClientConfiguration(new Uri(Url), credentials);
             client = config.CreateClient();
 
+            ThreadPool.Start(RefreshContainerListAsync);
+        }
+
+        public void RefreshContainerList()
+        {
             ThreadPool.Start(RefreshContainerListAsync);
         }
 

@@ -27,6 +27,12 @@ namespace CloudAppBrowser.Views.Subsystems
             StateCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.State);
         }
 
+        protected void RefreshContainerList(object sender, EventArgs e)
+        {
+            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel)DataContext;
+            viewModel.RefreshContainerList();
+        }
+
         protected void StartContainers(object sender, EventArgs e)
         {
             List<string> containerIds = ContainersGridView

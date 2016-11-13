@@ -22,6 +22,11 @@ namespace CloudAppBrowser.ViewModels.Subsystems
             UpdateContainerList();
         }
 
+        public void RefreshContainerList()
+        {
+            service.RefreshContainerList();
+        }
+
         public void StartContainers(List<string> containerIds)
         {
             service.StartContainers(containerIds);
