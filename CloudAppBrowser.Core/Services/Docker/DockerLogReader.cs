@@ -52,7 +52,7 @@ namespace CloudAppBrowser.Core.Services.Docker
                 int bytesRead = stream.Read(buffer, 0, BufferSize);
                 if (bytesRead > 0)
                 {
-                    string text = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                    string text = ParseMessage(buffer, 0, bytesRead);
                     lock (monitor)
                     {
                         log += text;
@@ -68,6 +68,16 @@ namespace CloudAppBrowser.Core.Services.Docker
                     Thread.Sleep(500);
                 }
             }
+        }
+
+        private string ParseMessage(byte[] buffer, int offset, int length)
+        {
+            bool hasHeader = length >= 8 && (buffer[offset + 1] == 0) && (buffer[offset + 2] == 0) && (buffer[offset + 3] == 0);
+            if (hasHeader)
+            {
+                return Encoding.ASCII.GetString(buffer, offset + 8, length - 8);
+            }
+            return Encoding.ASCII.GetString(buffer, offset, length);
         }
 
         public void Stop()

@@ -1,5 +1,4 @@
 ﻿using System;
-using CloudAppBrowser.ViewModels.Subsystems;
 using CloudAppBrowser.ViewModels.Subsystems.Docker;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
@@ -15,8 +14,8 @@ namespace CloudAppBrowser.Views.Subsystems
 
         protected void EnableLogs(object sender, EventArgs e)
         {
-            DockerContainerViewModel viewModel = (DockerContainerViewModel) DataContext;
-            viewModel.EnableLogs();
+            DockerContainerViewModel viewModel = DataContext as DockerContainerViewModel;
+            viewModel?.EnableLogs();
         }
     }
 }
