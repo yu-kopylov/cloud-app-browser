@@ -61,7 +61,7 @@ namespace CloudAppBrowser.Core.Services.Docker
                             log = log.Substring(log.Length - MaxLogLength);
                         }
                     }
-                    service.NotifyLogChanged(containerId, log);
+                    service.NotifyLogChanged(containerId);
                 }
                 else
                 {

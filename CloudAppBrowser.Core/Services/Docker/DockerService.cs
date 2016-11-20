@@ -31,7 +31,7 @@ namespace CloudAppBrowser.Core.Services.Docker
             ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) => true;
         }
 
-        public delegate void LogChangedEventHandler(string containerId, string log);
+        public delegate void LogChangedEventHandler(string containerId);
 
         public event Action ContainersChanged;
         public event LogChangedEventHandler LogChanged;
@@ -141,9 +141,9 @@ namespace CloudAppBrowser.Core.Services.Docker
             }
         }
 
-        internal void NotifyLogChanged(string containerId, string log)
+        internal void NotifyLogChanged(string containerId)
         {
-            LogChanged?.Invoke(containerId, log);
+            LogChanged?.Invoke(containerId);
         }
 
         public string GetLog(string containerId)
