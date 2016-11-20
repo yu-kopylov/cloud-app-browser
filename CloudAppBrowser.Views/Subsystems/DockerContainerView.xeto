@@ -15,7 +15,7 @@
         </TableRow>
         <TableRow>
           <TableCell>
-            <TextArea ReadOnly="True" Text="{Binding Log}"/>
+            <TextArea ReadOnly="True" Text="{Binding Log}" Font="Monospace"/>
           </TableCell>
         </TableRow>
       </TableLayout>
