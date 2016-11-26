@@ -1,3 +1,3 @@
 # cloud-app-browser
 
-GUI for interating with cloud application infrastructure.
+GUI for interacting with cloud application infrastructure.
