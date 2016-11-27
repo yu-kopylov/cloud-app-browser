@@ -3,5 +3,33 @@
   xmlns="http://schema.picoe.ca/eto.forms" 
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   >
-	<Label Text="{Binding Name}"/>
+  <GroupBox Text="Services">
+    <TableLayout>
+      <TableRow>
+        <TableCell>
+          <StackLayout Orientation="Horizontal">
+            <Button Text="Add Docker" Click="AddDockerService"/>
+            <Button Text="Add Eureka" Click="AddEurekaService"/>
+            <Button Text="Remove" Click="RemoveService"/>
+          </StackLayout>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>
+          <GridView ID="ServicesGridView" DataStore="{Binding Services}">
+            <GridColumn HeaderText="Type">
+              <GridColumn.DataCell>
+                <TextBoxCell ID="ServiceTypeCell"/>
+              </GridColumn.DataCell>
+            </GridColumn>
+            <GridColumn HeaderText="Name">
+              <GridColumn.DataCell>
+                <TextBoxCell ID="ServiceNameCell"/>
+              </GridColumn.DataCell>
+            </GridColumn>
+          </GridView>
+        </TableCell>
+      </TableRow>
+    </TableLayout>
+  </GroupBox>
 </Panel>

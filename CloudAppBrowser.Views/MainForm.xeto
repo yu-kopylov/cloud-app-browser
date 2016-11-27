@@ -8,7 +8,18 @@
   <Splitter Position="200">
     <Splitter.Panel1>
       <GroupBox Text="Environments">
-        <TreeView ID="SubsystemTree"/>
+        <TableLayout>
+          <TableRow>
+            <TableCell>
+              <Button Text="Add" Click="AddEnvironment"/>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <TreeView ID="SubsystemTree"/>
+            </TableCell>
+          </TableRow>
+        </TableLayout>
       </GroupBox>
     </Splitter.Panel1>
     <Splitter.Panel2>

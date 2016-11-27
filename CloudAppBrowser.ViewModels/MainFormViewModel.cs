@@ -29,17 +29,27 @@ namespace CloudAppBrowser.ViewModels
             subsystems.Clear();
             foreach (AppEnvironment environment in appBrowser.Environments)
             {
-                AppEnvironmentSubsystemViewModel envViewModel = new AppEnvironmentSubsystemViewModel(environment);
-                SubsystemTreeNode envNode = CreateNode(envViewModel);
+                var envNode = CreateTreeNode(environment);
                 subsystems.Add(envNode);
-
-                foreach (IService service in environment.Services)
-                {
-                    ISubsystemViewModel serviceViewModel = CreateSubsystemViewModel(service);
-                    SubsystemTreeNode serviceNode = CreateNode(serviceViewModel);
-                    envNode.Children.Add(serviceNode);
-                }
             }
+        }
+
+        private SubsystemTreeNode CreateTreeNode(AppEnvironment environment)
+        {
+            AppEnvironmentSubsystemViewModel envViewModel = new AppEnvironmentSubsystemViewModel(environment);
+            SubsystemTreeNode envNode = CreateNode(envViewModel);
+
+            foreach (IService service in environment.Services)
+            {
+                ISubsystemViewModel serviceViewModel = CreateSubsystemViewModel(service);
+                SubsystemTreeNode serviceNode = CreateNode(serviceViewModel);
+                envNode.Children.Add(serviceNode);
+            }
+
+            //todo: there is a memory leak here
+            environment.ServiceListChanged += UpdateSubsystems;
+
+            return envNode;
         }
 
         private SubsystemTreeNode CreateNode(ISubsystemViewModel viewModel)
@@ -85,12 +95,16 @@ namespace CloudAppBrowser.ViewModels
             }
         }
 
-        public void AddEnvironment(AppEnvironmentSubsystemViewModel appEnvironment)
+        public void AddEnvironment()
         {
-            subsystems.Add(new SubsystemTreeNode {Name = appEnvironment.Name, SubsystemViewModel = appEnvironment});
+            AppEnvironment env = appBrowser.AddEnvironment("New Environment");
+            SubsystemTreeNode envNode = CreateTreeNode(env);
+
+            subsystems.Add(envNode);
             subsystems.Sort((node1, node2) => string.Compare(node1.Name, node2.Name, StringComparison.Ordinal));
             SubsystemsChanged?.Invoke();
-            Subsystem = subsystem;
+
+            Subsystem = envNode.SubsystemViewModel;
         }
 
         public delegate void SubsystemsChangedEventHandler();

@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ServiceType.cs" />
     <Compile Include="Subsystems\Docker\DockerContainerViewModel.cs" />
+    <Compile Include="Subsystems\ServiceViewModel.cs" />
     <Compile Include="ViewContext.cs" />
     <Compile Include="SubsystemTreeNode.cs" />
     <Compile Include="Subsystems\AppEnvironmentSubsystemViewModel.cs" />

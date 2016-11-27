@@ -64,5 +64,10 @@ namespace CloudAppBrowser.Views
                 AddTreeNode(node.Children, childSubsystem);
             }
         }
+
+        public void AddEnvironment(object sender, EventArgs args)
+        {
+            viewModel.AddEnvironment();
+        }
     }
 }

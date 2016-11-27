@@ -7,5 +7,15 @@ namespace CloudAppBrowser.Core
     {
         public string Name { get; set; }
         public List<IService> Services { get; } = new List<IService>();
+
+        public delegate void ServiceListChangedEventHandler();
+
+        public event ServiceListChangedEventHandler ServiceListChanged;
+
+        public void RemoveService(IService service)
+        {
+            Services.Remove(service);
+            ServiceListChanged?.Invoke();
+        }
     }
 }
