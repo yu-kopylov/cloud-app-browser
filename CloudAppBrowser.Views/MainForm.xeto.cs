@@ -8,10 +8,18 @@ namespace CloudAppBrowser.Views
 {
     public class MainForm : Form
     {
+        private static readonly ObservableCollectionMapper<SubsystemTreeNode, ITreeItem> TreeMapper = new ObservableCollectionMapper<SubsystemTreeNode, ITreeItem>(
+            subsystem => CreateTreeNode(subsystem),
+            treeNode => (SubsystemTreeNode) ((TreeItem) treeNode).Tag,
+            (subsystem, treeNode) => UpdateTreeNode(subsystem, (TreeItem) treeNode),
+            null);
+
         private readonly MainFormViewModel viewModel;
 
         protected TreeView SubsystemTree;
         protected GroupBox SubsystemPanel;
+
+        private readonly TreeItemCollection treeNodes = new TreeItemCollection();
 
         public MainForm(MainFormViewModel viewModel)
         {
@@ -23,6 +31,9 @@ namespace CloudAppBrowser.Views
 
             viewModel.SubsystemsChanged += UpdateTree;
             viewModel.PropertyChanged += ViewModelOnPropertyChanged;
+
+            SubsystemTree.DataStore = treeNodes;
+
             UpdateTree();
         }
 
@@ -45,24 +56,20 @@ namespace CloudAppBrowser.Views
 
         private void UpdateTree()
         {
-            TreeItemCollection treeNodes = new TreeItemCollection();
-
-            foreach (SubsystemTreeNode subsystem in viewModel.Subsystems)
-            {
-                AddTreeNode(treeNodes, subsystem);
-            }
-
-            SubsystemTree.DataStore = treeNodes;
+            TreeMapper.UpdateCollection(viewModel.Subsystems, treeNodes);
         }
 
-        private void AddTreeNode(TreeItemCollection treeNodes, SubsystemTreeNode subsystem)
+        private static TreeItem CreateTreeNode(SubsystemTreeNode subsystem)
         {
-            TreeItem node = new TreeItem { Text = subsystem.Name, Tag = subsystem };
-            treeNodes.Add(node);
-            foreach (SubsystemTreeNode childSubsystem in subsystem.Children)
-            {
-                AddTreeNode(node.Children, childSubsystem);
-            }
+            TreeItem node = new TreeItem {Text = subsystem.Name, Tag = subsystem};
+            UpdateTreeNode(subsystem, node);
+            return node;
+        }
+
+        private static void UpdateTreeNode(SubsystemTreeNode subsystem, TreeItem treeNode)
+        {
+            treeNode.Text = subsystem.Name;
+            TreeMapper.UpdateCollection(subsystem.Children, treeNode.Children);
         }
 
         public void AddEnvironment(object sender, EventArgs args)
