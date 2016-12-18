@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80200338-84FB-49D3-8D9B-E56EC478FBBF}</ProjectGuid>
+    <ProjectGuid>{39F33760-3743-4B49-823D-E13F8B68BB54}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudAppBrowser.ViewModels</RootNamespace>
-    <AssemblyName>CloudAppBrowser.ViewModels</AssemblyName>
+    <RootNamespace>CloudAppBrowser.ViewModels.Tests</RootNamespace>
+    <AssemblyName>CloudAppBrowser.ViewModels.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,23 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObservableCollectionMapper.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ServiceType.cs" />
-    <Compile Include="Subsystems\Docker\DockerContainerViewModel.cs" />
-    <Compile Include="Subsystems\ServiceViewModel.cs" />
-    <Compile Include="ViewContext.cs" />
-    <Compile Include="SubsystemTreeNode.cs" />
-    <Compile Include="Subsystems\AppEnvironmentSubsystemViewModel.cs" />
-    <Compile Include="Subsystems\Docker\DockerSubsystemViewModel.cs" />
-    <Compile Include="Subsystems\ISubsystemViewModel.cs" />
-    <Compile Include="MainFormViewModel.cs" />
+    <Compile Include="ObservableCollectionMapperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CloudAppBrowser.Core\CloudAppBrowser.Core.csproj">
-      <Project>{488f355b-80b1-4ecf-ae65-2ee6abc30656}</Project>
-      <Name>CloudAppBrowser.Core</Name>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudAppBrowser.ViewModels\CloudAppBrowser.ViewModels.csproj">
+      <Project>{80200338-84FB-49D3-8D9B-E56EC478FBBF}</Project>
+      <Name>CloudAppBrowser.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudAppBrowser", "CloudApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudAppBrowser.Views", "CloudAppBrowser.Views\CloudAppBrowser.Views.csproj", "{561E1534-0021-45D9-ACB5-515D3FC95DFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudAppBrowser.ViewModels.Tests", "CloudAppBrowser.ViewModels.Tests\CloudAppBrowser.ViewModels.Tests.csproj", "{39F33760-3743-4B49-823D-E13F8B68BB54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{561E1534-0021-45D9-ACB5-515D3FC95DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{561E1534-0021-45D9-ACB5-515D3FC95DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{561E1534-0021-45D9-ACB5-515D3FC95DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39F33760-3743-4B49-823D-E13F8B68BB54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39F33760-3743-4B49-823D-E13F8B68BB54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39F33760-3743-4B49-823D-E13F8B68BB54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39F33760-3743-4B49-823D-E13F8B68BB54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
