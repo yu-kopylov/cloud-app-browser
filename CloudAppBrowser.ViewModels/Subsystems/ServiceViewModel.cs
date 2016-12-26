@@ -1,6 +1,7 @@
 ﻿using System;
 using CloudAppBrowser.Core.Services;
 using CloudAppBrowser.Core.Services.Docker;
+using CloudAppBrowser.Core.Services.Eureka;
 
 namespace CloudAppBrowser.ViewModels.Subsystems
 {

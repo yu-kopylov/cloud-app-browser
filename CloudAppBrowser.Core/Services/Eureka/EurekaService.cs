@@ -1,4 +1,4 @@
-namespace CloudAppBrowser.Core.Services
+namespace CloudAppBrowser.Core.Services.Eureka
 {
     public class EurekaService : IService
     {
