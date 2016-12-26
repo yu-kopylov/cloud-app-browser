@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Settings\EurekaSettingsDialog.xeto.cs">
+      <DependentUpon>EurekaSettingsDialog.xeto</DependentUpon>
+    </Compile>
     <Compile Include="Subsystems\DockerContainerView.xeto.cs">
       <DependentUpon>DockerContainerView.xeto</DependentUpon>
     </Compile>
@@ -89,7 +92,11 @@
     <EmbeddedResource Include="Subsystems\EurekaSubsystemView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\EurekaSettingsDialog.xeto">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

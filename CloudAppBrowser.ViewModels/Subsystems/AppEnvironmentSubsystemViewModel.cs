@@ -4,6 +4,8 @@ using System.IO;
 using CloudAppBrowser.Core;
 using CloudAppBrowser.Core.Services;
 using CloudAppBrowser.Core.Services.Docker;
+using CloudAppBrowser.Core.Services.Eureka;
+using CloudAppBrowser.ViewModels.Settings;
 
 namespace CloudAppBrowser.ViewModels.Subsystems
 {
@@ -44,6 +46,25 @@ namespace CloudAppBrowser.ViewModels.Subsystems
             service.CertificateFile = Path.Combine(userProfile, @".docker\machine\machines\default\cert.pem");
             service.CertificateKeyFile = Path.Combine(userProfile, @".docker\machine\machines\default\key.pem");
             service.Url = "http://192.168.99.100:2376";
+
+            environment.AddService(service);
+            mainFormViewModel.SelectService(service);
+        }
+
+        public void AddEurekaService()
+        {
+            EurekaSettingsViewModel settings = new EurekaSettingsViewModel();
+            settings.Name = "Eureka";
+            settings.Url = "http://<host>:<port>/eureka/apps";
+
+            if (!ViewContext.Instance.ShowDialog(settings))
+            {
+                return;
+            }
+
+            EurekaService service = new EurekaService();
+            service.Name = settings.Name;
+            service.Url = settings.Url;
 
             environment.AddService(service);
             mainFormViewModel.SelectService(service);

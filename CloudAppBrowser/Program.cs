@@ -47,5 +47,10 @@ namespace CloudAppBrowser
         {
             Application.Instance.Invoke(action);
         }
+
+        public override IViewResolver ViewResolver
+        {
+            get { return Views.ViewResolver.Instance; }
+        }
     }
 }

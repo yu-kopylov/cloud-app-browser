@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IViewResolver.cs" />
     <Compile Include="ObservableCollectionMapper.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ServiceType.cs" />
     <Compile Include="BasicCommand.cs" />
+    <Compile Include="Settings\EurekaSettingsViewModel.cs" />
     <Compile Include="Subsystems\Docker\DockerContainerViewModel.cs" />
     <Compile Include="Subsystems\Eureka\EurekaSubsystemViewModel.cs" />
     <Compile Include="Subsystems\ServiceViewModel.cs" />

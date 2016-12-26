@@ -9,7 +9,6 @@ namespace CloudAppBrowser.Views.Subsystems
 {
     public class AppEnvironmentSubsystemView : Panel
     {
-
         protected GridView ServicesGridView;
         protected TextBoxCell ServiceTypeCell;
         protected TextBoxCell ServiceNameCell;
@@ -23,13 +22,14 @@ namespace CloudAppBrowser.Views.Subsystems
 
         public void AddDockerService(object sender, EventArgs e)
         {
-            AppEnvironmentSubsystemViewModel model = (AppEnvironmentSubsystemViewModel)DataContext;
+            AppEnvironmentSubsystemViewModel model = (AppEnvironmentSubsystemViewModel) DataContext;
             model.AddDockerService();
         }
 
         public void AddEurekaService(object sender, EventArgs e)
         {
-            
+            AppEnvironmentSubsystemViewModel model = (AppEnvironmentSubsystemViewModel) DataContext;
+            model.AddEurekaService();
         }
 
         public void RemoveService(object sender, EventArgs e)
