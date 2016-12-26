@@ -14,9 +14,9 @@ namespace CloudAppBrowser.ViewModels
     {
         private readonly AppBrowser appBrowser;
 
-        private readonly List<SubsystemTreeNode> subsystems = new List<SubsystemTreeNode>();
-        private readonly Dictionary<IService, SubsystemTreeNode> subsystemsByService = new Dictionary<IService, SubsystemTreeNode>();
-        private SubsystemTreeNode selectedNode;
+        private readonly List<SubsystemTreeNode> treeNodes = new List<SubsystemTreeNode>();
+        private readonly Dictionary<IService, SubsystemTreeNode> treeNodesByService = new Dictionary<IService, SubsystemTreeNode>();
+        private SubsystemTreeNode selectedTreeNode;
         private string subsystemName;
 
         public MainFormViewModel(AppBrowser appBrowser)
@@ -27,12 +27,12 @@ namespace CloudAppBrowser.ViewModels
 
         private void UpdateSubsystems()
         {
-            subsystems.Clear();
-            subsystemsByService.Clear();
+            treeNodes.Clear();
+            treeNodesByService.Clear();
             foreach (AppEnvironment environment in appBrowser.Environments)
             {
                 var envNode = CreateTreeNode(environment);
-                subsystems.Add(envNode);
+                treeNodes.Add(envNode);
             }
             SubsystemsChanged?.Invoke();
         }
@@ -47,7 +47,7 @@ namespace CloudAppBrowser.ViewModels
                 ISubsystemViewModel serviceViewModel = CreateSubsystemViewModel(service);
                 SubsystemTreeNode serviceNode = CreateNode(serviceViewModel);
                 envNode.Children.Add(serviceNode);
-                subsystemsByService.Add(service, serviceNode);
+                treeNodesByService.Add(service, serviceNode);
             }
 
             //todo: there is a memory leak here
@@ -73,19 +73,19 @@ namespace CloudAppBrowser.ViewModels
             return null;
         }
 
-        public List<SubsystemTreeNode> Subsystems
+        public List<SubsystemTreeNode> TreeNodes
         {
-            get { return subsystems; }
+            get { return treeNodes; }
         }
 
-        public SubsystemTreeNode SelectedNode
+        public SubsystemTreeNode SelectedTreeNode
         {
-            get { return selectedNode; }
+            get { return selectedTreeNode; }
             set
             {
-                selectedNode = value;
+                selectedTreeNode = value;
                 OnPropertyChanged();
-                SubsystemName = selectedNode?.SubsystemViewModel?.Name;
+                SubsystemName = selectedTreeNode?.SubsystemViewModel?.Name;
             }
         }
 
@@ -104,21 +104,21 @@ namespace CloudAppBrowser.ViewModels
             AppEnvironment env = appBrowser.AddEnvironment("New Environment");
             SubsystemTreeNode envNode = CreateTreeNode(env);
 
-            subsystems.Add(envNode);
-            subsystems.Sort((node1, node2) => string.Compare(node1.Name, node2.Name, StringComparison.Ordinal));
+            treeNodes.Add(envNode);
+            treeNodes.Sort((node1, node2) => string.Compare(node1.Name, node2.Name, StringComparison.Ordinal));
             SubsystemsChanged?.Invoke();
 
-            SelectedNode = envNode;
+            SelectedTreeNode = envNode;
         }
 
         public void SelectService(IService service)
         {
             SubsystemTreeNode node;
-            if (!subsystemsByService.TryGetValue(service, out node))
+            if (!treeNodesByService.TryGetValue(service, out node))
             {
-                SelectedNode = null;
+                SelectedTreeNode = null;
             }
-            SelectedNode = node;
+            SelectedTreeNode = node;
         }
 
         public delegate void SubsystemsChangedEventHandler();

@@ -40,15 +40,15 @@ namespace CloudAppBrowser.Views
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
         {
-            if (eventArgs.PropertyName == "SelectedNode")
+            if (eventArgs.PropertyName == "SelectedTreeNode")
             {
-                ITreeItem treeItem = FindTreeItem(treeNodes, viewModel.SelectedNode);
+                ITreeItem treeItem = FindTreeItem(treeNodes, viewModel.SelectedTreeNode);
                 if (SubsystemTree.SelectedItem != treeItem)
                 {
                     SubsystemTree.SelectedItem = treeItem;
                 }
                 SubsystemPanel.RemoveAll();
-                ISubsystemViewModel selectedSubsystem = viewModel.SelectedNode?.SubsystemViewModel;
+                ISubsystemViewModel selectedSubsystem = viewModel.SelectedTreeNode?.SubsystemViewModel;
                 if (selectedSubsystem != null)
                 {
                     Panel panel = ViewResolver.Instance.CreatePanel(selectedSubsystem);
@@ -82,12 +82,12 @@ namespace CloudAppBrowser.Views
         private void SubsystemTreeOnSelectionChanged(object sender, EventArgs eventArgs)
         {
             TreeItem selectedItem = SubsystemTree.SelectedItem as TreeItem;
-            viewModel.SelectedNode = selectedItem?.Tag as SubsystemTreeNode;
+            viewModel.SelectedTreeNode = selectedItem?.Tag as SubsystemTreeNode;
         }
 
         private void UpdateTree()
         {
-            TreeMapper.UpdateCollection(viewModel.Subsystems, treeNodes);
+            TreeMapper.UpdateCollection(viewModel.TreeNodes, treeNodes);
         }
 
         private static TreeItem CreateTreeNode(SubsystemTreeNode subsystemTreeNode)
