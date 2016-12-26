@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using CloudAppBrowser.ViewModels;
+using CloudAppBrowser.ViewModels.Subsystems;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
 
@@ -41,10 +42,38 @@ namespace CloudAppBrowser.Views
         {
             if (eventArgs.PropertyName == "Subsystem")
             {
+                ITreeItem treeItem = FindTreeItem(treeNodes, viewModel.Subsystem);
+                if (SubsystemTree.SelectedItem != treeItem)
+                {
+                    SubsystemTree.SelectedItem = treeItem;
+                }
                 SubsystemPanel.RemoveAll();
                 Panel panel = ViewResolver.Instance.CreatePanel(viewModel.Subsystem);
                 SubsystemPanel.Content = panel;
             }
+        }
+
+        private ITreeItem FindTreeItem(TreeItemCollection nodes, ISubsystemViewModel subsystem)
+        {
+            foreach (ITreeItem treeNode in nodes)
+            {
+                TreeItem node = (TreeItem) treeNode;
+                if (node == null)
+                {
+                    continue;
+                }
+                SubsystemTreeNode viewModel = node.Tag as SubsystemTreeNode;
+                if (viewModel != null && viewModel.SubsystemViewModel == subsystem)
+                {
+                    return node;
+                }
+                ITreeItem matchingChild = FindTreeItem(node.Children, subsystem);
+                if (matchingChild != null)
+                {
+                    return matchingChild;
+                }
+            }
+            return null;
         }
 
         private void SubsystemTreeOnSelectionChanged(object sender, EventArgs eventArgs)
@@ -59,17 +88,18 @@ namespace CloudAppBrowser.Views
             TreeMapper.UpdateCollection(viewModel.Subsystems, treeNodes);
         }
 
-        private static TreeItem CreateTreeNode(SubsystemTreeNode subsystem)
+        private static TreeItem CreateTreeNode(SubsystemTreeNode subsystemTreeNode)
         {
-            TreeItem node = new TreeItem {Text = subsystem.Name, Tag = subsystem};
-            UpdateTreeNode(subsystem, node);
+            TreeItem node = new TreeItem {Text = subsystemTreeNode.Name, Tag = subsystemTreeNode};
+            UpdateTreeNode(subsystemTreeNode, node);
             return node;
         }
 
-        private static void UpdateTreeNode(SubsystemTreeNode subsystem, TreeItem treeNode)
+        private static void UpdateTreeNode(SubsystemTreeNode subsystemTreeNode, TreeItem treeNode)
         {
-            treeNode.Text = subsystem.Name;
-            TreeMapper.UpdateCollection(subsystem.Children, treeNode.Children);
+            treeNode.Text = subsystemTreeNode.Name;
+            treeNode.Tag = subsystemTreeNode;
+            TreeMapper.UpdateCollection(subsystemTreeNode.Children, treeNode.Children);
         }
 
         public void AddEnvironment(object sender, EventArgs args)

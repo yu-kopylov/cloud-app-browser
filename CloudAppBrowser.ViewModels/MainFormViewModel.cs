@@ -104,7 +104,8 @@ namespace CloudAppBrowser.ViewModels
             subsystems.Sort((node1, node2) => string.Compare(node1.Name, node2.Name, StringComparison.Ordinal));
             SubsystemsChanged?.Invoke();
 
-            //Subsystem = envNode.SubsystemViewModel;
+            Subsystem = envNode.SubsystemViewModel;
+            OnPropertyChanged("Subsystem");
         }
 
         public delegate void SubsystemsChangedEventHandler();
