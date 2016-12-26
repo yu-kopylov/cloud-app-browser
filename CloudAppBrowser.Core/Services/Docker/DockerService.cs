@@ -25,6 +25,8 @@ namespace CloudAppBrowser.Core.Services.Docker
         private readonly List<DockerContainer> containers = new List<DockerContainer>();
         private readonly Dictionary<string, DockerLogReader> logReaders = new Dictionary<string, DockerLogReader>();
 
+        private bool connected;
+
         static DockerService()
         {
             //todo: move to a common place?
@@ -36,20 +38,41 @@ namespace CloudAppBrowser.Core.Services.Docker
         public event Action ContainersChanged;
         public event LogChangedEventHandler LogChanged;
 
+        public bool Connected
+        {
+            get { return connected; }
+        }
+
         public void Connect()
         {
+            connected = true;
+
             X509Certificate2 cert = CertificateUtils.ReadCertificateWithKey(CertificateFile, CertificateKeyFile, null);
             CertificateCredentials credentials = new CertificateCredentials(cert);
 
             DockerClientConfiguration config = new DockerClientConfiguration(new Uri(Url), credentials);
             client = config.CreateClient();
 
-            ThreadPool.Start(RefreshContainerListAsync);
+            ThreadPool.Execute(RefreshContainerListAsync);
+        }
+
+        public void Disconnect()
+        {
+            connected = false;
+
+            foreach (DockerLogReader logReader in logReaders.Values)
+            {
+                logReader.Stop();
+            }
+            logReaders.Clear();
+            containers.Clear();
+
+            ContainersChanged?.Invoke();
         }
 
         public void RefreshContainerList()
         {
-            ThreadPool.Start(RefreshContainerListAsync);
+            ThreadPool.Execute(RefreshContainerListAsync);
         }
 
         private async void RefreshContainerListAsync()
@@ -79,7 +102,7 @@ namespace CloudAppBrowser.Core.Services.Docker
 
         public void StartContainers(List<string> containerIds)
         {
-            ThreadPool.Start(() => StartContainersAsync(containerIds));
+            ThreadPool.Execute(() => StartContainersAsync(containerIds));
         }
 
         private async void StartContainersAsync(List<string> containerIds)
@@ -94,7 +117,7 @@ namespace CloudAppBrowser.Core.Services.Docker
 
         public void StopContainers(List<string> containerIds)
         {
-            ThreadPool.Start(() => StopContainersAsync(containerIds));
+            ThreadPool.Execute(() => StopContainersAsync(containerIds));
         }
 
         private async void StopContainersAsync(List<string> containerIds)
@@ -117,7 +140,7 @@ namespace CloudAppBrowser.Core.Services.Docker
 
         public void EnableLogs(string containerId)
         {
-            ThreadPool.Start(() => EnableLogsAsync(containerId));
+            ThreadPool.Execute(() => EnableLogsAsync(containerId));
         }
 
         private async void EnableLogsAsync(string containerId)

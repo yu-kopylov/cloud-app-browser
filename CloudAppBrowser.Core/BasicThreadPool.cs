@@ -35,7 +35,7 @@ namespace CloudAppBrowser.Core
             }
         }
 
-        public void Start(Action action)
+        public void Execute(Action action)
         {
             workItems.Add(action);
         }
