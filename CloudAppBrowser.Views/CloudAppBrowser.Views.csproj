@@ -55,6 +55,9 @@
     <Compile Include="Subsystems\DockerContainerView.xeto.cs">
       <DependentUpon>DockerContainerView.xeto</DependentUpon>
     </Compile>
+    <Compile Include="Subsystems\EurekaSubsystemView.xeto.cs">
+      <DependentUpon>EurekaSubsystemView.xeto</DependentUpon>
+    </Compile>
     <Compile Include="Subsystems\DockerSubsystemView.xeto.cs">
       <DependentUpon>DockerSubsystemView.xeto</DependentUpon>
     </Compile>
@@ -81,6 +84,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subsystems\DockerContainerView.xeto">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subsystems\EurekaSubsystemView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

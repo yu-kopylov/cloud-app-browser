@@ -45,6 +45,7 @@
     <Compile Include="ServiceType.cs" />
     <Compile Include="BasicCommand.cs" />
     <Compile Include="Subsystems\Docker\DockerContainerViewModel.cs" />
+    <Compile Include="Subsystems\Eureka\EurekaSubsystemViewModel.cs" />
     <Compile Include="Subsystems\ServiceViewModel.cs" />
     <Compile Include="ViewContext.cs" />
     <Compile Include="SubsystemTreeNode.cs" />

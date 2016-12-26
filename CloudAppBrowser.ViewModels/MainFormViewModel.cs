@@ -5,8 +5,10 @@ using System.Runtime.CompilerServices;
 using CloudAppBrowser.Core;
 using CloudAppBrowser.Core.Services;
 using CloudAppBrowser.Core.Services.Docker;
+using CloudAppBrowser.Core.Services.Eureka;
 using CloudAppBrowser.ViewModels.Subsystems;
 using CloudAppBrowser.ViewModels.Subsystems.Docker;
+using CloudAppBrowser.ViewModels.Subsystems.Eureka;
 
 namespace CloudAppBrowser.ViewModels
 {
@@ -69,6 +71,10 @@ namespace CloudAppBrowser.ViewModels
             if (service is DockerService)
             {
                 return new DockerSubsystemViewModel((DockerService) service);
+            }
+            if (service is EurekaService)
+            {
+                return new EurekaSubsystemViewModel((EurekaService) service);
             }
             return null;
         }

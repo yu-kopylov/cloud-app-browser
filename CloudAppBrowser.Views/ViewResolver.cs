@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CloudAppBrowser.ViewModels.Subsystems;
 using CloudAppBrowser.ViewModels.Subsystems.Docker;
+using CloudAppBrowser.ViewModels.Subsystems.Eureka;
 using CloudAppBrowser.Views.Subsystems;
 using Eto.Forms;
 
@@ -17,6 +18,7 @@ namespace CloudAppBrowser.Views
         {
             constructors.Add(typeof(AppEnvironmentSubsystemViewModel), () => new AppEnvironmentSubsystemView());
             constructors.Add(typeof(DockerSubsystemViewModel), () => new DockerSubsystemView());
+            constructors.Add(typeof(EurekaSubsystemViewModel), () => new EurekaSubsystemView());
         }
 
         public Panel CreatePanel(object viewModel)
