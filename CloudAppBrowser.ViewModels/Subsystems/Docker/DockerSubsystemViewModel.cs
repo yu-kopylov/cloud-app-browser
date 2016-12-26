@@ -28,6 +28,10 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
             this.service = service;
             Name = service.Name;
 
+            RefreshCommand = new BasicCommand(() => service.Connected, o => service.RefreshContainerList());
+            ConnectCommand = new BasicCommand(() => !service.Connected, o => service.Connect());
+            DisconnectCommand = new BasicCommand(() => service.Connected, o => service.Disconnect());
+
             service.ContainersChanged += () => ViewContext.Instance.Invoke(UpdateContainerList);
             service.LogChanged += UpdateLog;
 
@@ -41,6 +45,10 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
         {
             timer.Dispose();
         }
+
+        public BasicCommand ConnectCommand { get; }
+        public BasicCommand DisconnectCommand { get; }
+        public BasicCommand RefreshCommand { get; }
 
         public DockerContainerViewModel SelectedContainer
         {
@@ -106,11 +114,6 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
             }
         }
 
-        public void RefreshContainerList()
-        {
-            service.RefreshContainerList();
-        }
-
         public void StartContainers(List<string> containerIds)
         {
             service.StartContainers(containerIds);
@@ -130,6 +133,10 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
                 containerViewModel.Log = service.GetLog(container.Id);
                 Containers.Add(containerViewModel);
             }
+
+            RefreshCommand.UpdateState();
+            ConnectCommand.UpdateState();
+            DisconnectCommand.UpdateState();
         }
     }
 }

@@ -42,12 +42,6 @@ namespace CloudAppBrowser.Views.Subsystems
             ContainerView.DataContext = viewModel.SelectedContainer;
         }
 
-        protected void RefreshContainerList(object sender, EventArgs e)
-        {
-            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel) DataContext;
-            viewModel.RefreshContainerList();
-        }
-
         protected void StartContainers(object sender, EventArgs e)
         {
             List<string> containerIds = ContainersGridView

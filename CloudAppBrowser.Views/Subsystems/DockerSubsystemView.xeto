@@ -10,9 +10,11 @@
         <TableRow>
           <TableCell>
             <StackLayout Orientation="Horizontal">
-              <Button Text="Refresh" Click="RefreshContainerList"/>
+              <Button Text="Refresh" Command="{Binding RefreshCommand}"/>
               <Button Text="Start" Click="StartContainers"/>
               <Button Text="Stop" Click="StopContainers"/>
+              <Button Text="Connect" Command="{Binding ConnectCommand}"/>
+              <Button Text="Disconnect" Command="{Binding DisconnectCommand}"/>
             </StackLayout>
           </TableCell>
         </TableRow>

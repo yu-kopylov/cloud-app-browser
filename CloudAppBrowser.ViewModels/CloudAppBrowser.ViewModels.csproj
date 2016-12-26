@@ -43,6 +43,7 @@
     <Compile Include="ObservableCollectionMapper.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ServiceType.cs" />
+    <Compile Include="BasicCommand.cs" />
     <Compile Include="Subsystems\Docker\DockerContainerViewModel.cs" />
     <Compile Include="Subsystems\ServiceViewModel.cs" />
     <Compile Include="ViewContext.cs" />

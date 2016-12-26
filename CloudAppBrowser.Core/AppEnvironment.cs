@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CloudAppBrowser.Core.Services;
+using CloudAppBrowser.Core.Services.Docker;
 
 namespace CloudAppBrowser.Core
 {
@@ -11,6 +12,12 @@ namespace CloudAppBrowser.Core
         public delegate void ServiceListChangedEventHandler();
 
         public event ServiceListChangedEventHandler ServiceListChanged;
+
+        public void AddService(IService service)
+        {
+            Services.Add(service);
+            ServiceListChanged?.Invoke();
+        }
 
         public void RemoveService(IService service)
         {

@@ -23,7 +23,8 @@ namespace CloudAppBrowser.Views.Subsystems
 
         public void AddDockerService(object sender, EventArgs e)
         {
-            
+            AppEnvironmentSubsystemViewModel model = (AppEnvironmentSubsystemViewModel)DataContext;
+            model.AddDockerService();
         }
 
         public void AddEurekaService(object sender, EventArgs e)
