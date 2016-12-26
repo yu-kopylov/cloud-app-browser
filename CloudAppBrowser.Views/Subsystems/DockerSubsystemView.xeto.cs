@@ -36,42 +36,15 @@ namespace CloudAppBrowser.Views.Subsystems
                 .SelectedItems
                 .Cast<DockerContainerViewModel>()
                 .ToList();
-            DockerContainerViewModel container = (containers.Count == 1) ? containers[0] : null;
             DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel) DataContext;
+            viewModel.SelectedContainers.Clear();
+            foreach (DockerContainerViewModel containerModel in containers)
+            {
+                viewModel.SelectedContainers.Add(containerModel);
+            }
+            DockerContainerViewModel container = (containers.Count == 1) ? containers[0] : null;
             viewModel.SelectedContainer = container;
             ContainerView.DataContext = viewModel.SelectedContainer;
-        }
-
-        protected void StartContainers(object sender, EventArgs e)
-        {
-            List<string> containerIds = ContainersGridView
-                .SelectedItems
-                .Cast<DockerContainerViewModel>()
-                .Select(c => c.Id)
-                .ToList();
-            if (!containerIds.Any())
-            {
-                MessageBox.Show(this.Parent, "No containers are selected.");
-                return;
-            }
-            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel) DataContext;
-            viewModel.StartContainers(containerIds);
-        }
-
-        protected void StopContainers(object sender, EventArgs e)
-        {
-            List<string> containerIds = ContainersGridView
-                .SelectedItems
-                .Cast<DockerContainerViewModel>()
-                .Select(c => c.Id)
-                .ToList();
-            if (!containerIds.Any())
-            {
-                MessageBox.Show(this.Parent, "No containers are selected.");
-                return;
-            }
-            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel) DataContext;
-            viewModel.StopContainers(containerIds);
         }
     }
 }
