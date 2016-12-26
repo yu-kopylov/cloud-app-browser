@@ -48,6 +48,11 @@ namespace CloudAppBrowser
             Application.Instance.Invoke(action);
         }
 
+        public override void MessageBox(string message, string caption)
+        {
+            Eto.Forms.MessageBox.Show(message, caption, MessageBoxButtons.OK);
+        }
+
         public override IViewResolver ViewResolver
         {
             get { return Views.ViewResolver.Instance; }

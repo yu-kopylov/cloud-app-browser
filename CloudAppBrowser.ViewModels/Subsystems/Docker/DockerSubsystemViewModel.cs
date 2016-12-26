@@ -150,6 +150,8 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
             RefreshCommand.UpdateState();
             ConnectCommand.UpdateState();
             DisconnectCommand.UpdateState();
+            StartContainersCommand.UpdateState();
+            StopContainersCommand.UpdateState();
         }
     }
 }

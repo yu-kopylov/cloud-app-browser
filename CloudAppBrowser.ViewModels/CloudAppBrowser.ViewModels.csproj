@@ -47,6 +47,7 @@
     <Compile Include="BasicCommand.cs" />
     <Compile Include="Settings\EurekaSettingsViewModel.cs" />
     <Compile Include="Subsystems\Docker\DockerContainerViewModel.cs" />
+    <Compile Include="Subsystems\Eureka\EurekaApplicationViewModel.cs" />
     <Compile Include="Subsystems\Eureka\EurekaSubsystemViewModel.cs" />
     <Compile Include="Subsystems\ServiceViewModel.cs" />
     <Compile Include="ViewContext.cs" />

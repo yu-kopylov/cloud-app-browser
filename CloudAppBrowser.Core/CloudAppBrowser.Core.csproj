@@ -70,6 +70,8 @@
     <Compile Include="Services\Docker\DockerContainer.cs" />
     <Compile Include="Services\Docker\DockerService.cs" />
     <Compile Include="AppEnvironment.cs" />
+    <Compile Include="Services\Eureka\EurekaApplication.cs" />
+    <Compile Include="Services\Eureka\EurekaApplicationInstance.cs" />
     <Compile Include="Services\Eureka\EurekaService.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

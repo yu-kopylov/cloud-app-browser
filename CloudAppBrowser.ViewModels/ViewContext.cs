@@ -8,6 +8,8 @@ namespace CloudAppBrowser.ViewModels
 
         public abstract void Invoke(Action action);
 
+        public abstract void MessageBox(string message, string caption);
+
         public abstract IViewResolver ViewResolver { get; }
 
         public bool ShowDialog(object viewModel)
