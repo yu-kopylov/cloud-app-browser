@@ -9,12 +9,14 @@ namespace CloudAppBrowser.ViewModels.Subsystems
 {
     public class AppEnvironmentSubsystemViewModel : ISubsystemViewModel
     {
+        private readonly MainFormViewModel mainFormViewModel;
         private readonly AppEnvironment environment;
 
         private readonly List<ServiceViewModel> services = new List<ServiceViewModel>();
 
-        public AppEnvironmentSubsystemViewModel(AppEnvironment environment)
+        public AppEnvironmentSubsystemViewModel(MainFormViewModel mainFormViewModel, AppEnvironment environment)
         {
+            this.mainFormViewModel = mainFormViewModel;
             this.environment = environment;
             Name = environment.Name;
             foreach (IService service in environment.Services)
@@ -44,6 +46,7 @@ namespace CloudAppBrowser.ViewModels.Subsystems
             service.Url = "http://192.168.99.100:2376";
 
             environment.AddService(service);
+            mainFormViewModel.SelectService(service);
         }
 
         public void RemoveService(ServiceViewModel service)

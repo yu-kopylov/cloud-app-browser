@@ -15,6 +15,7 @@ namespace CloudAppBrowser.ViewModels
         private readonly AppBrowser appBrowser;
 
         private readonly List<SubsystemTreeNode> subsystems = new List<SubsystemTreeNode>();
+        private readonly Dictionary<IService, SubsystemTreeNode> subsystemsByService = new Dictionary<IService, SubsystemTreeNode>();
         private SubsystemTreeNode selectedNode;
         private string subsystemName;
 
@@ -27,6 +28,7 @@ namespace CloudAppBrowser.ViewModels
         private void UpdateSubsystems()
         {
             subsystems.Clear();
+            subsystemsByService.Clear();
             foreach (AppEnvironment environment in appBrowser.Environments)
             {
                 var envNode = CreateTreeNode(environment);
@@ -37,7 +39,7 @@ namespace CloudAppBrowser.ViewModels
 
         private SubsystemTreeNode CreateTreeNode(AppEnvironment environment)
         {
-            AppEnvironmentSubsystemViewModel envViewModel = new AppEnvironmentSubsystemViewModel(environment);
+            AppEnvironmentSubsystemViewModel envViewModel = new AppEnvironmentSubsystemViewModel(this, environment);
             SubsystemTreeNode envNode = CreateNode(envViewModel);
 
             foreach (IService service in environment.Services)
@@ -45,6 +47,7 @@ namespace CloudAppBrowser.ViewModels
                 ISubsystemViewModel serviceViewModel = CreateSubsystemViewModel(service);
                 SubsystemTreeNode serviceNode = CreateNode(serviceViewModel);
                 envNode.Children.Add(serviceNode);
+                subsystemsByService.Add(service, serviceNode);
             }
 
             //todo: there is a memory leak here
@@ -106,6 +109,16 @@ namespace CloudAppBrowser.ViewModels
             SubsystemsChanged?.Invoke();
 
             SelectedNode = envNode;
+        }
+
+        public void SelectService(IService service)
+        {
+            SubsystemTreeNode node;
+            if (!subsystemsByService.TryGetValue(service, out node))
+            {
+                SelectedNode = null;
+            }
+            SelectedNode = node;
         }
 
         public delegate void SubsystemsChangedEventHandler();
