@@ -15,7 +15,7 @@ namespace CloudAppBrowser.ViewModels
         private readonly AppBrowser appBrowser;
 
         private readonly List<SubsystemTreeNode> subsystems = new List<SubsystemTreeNode>();
-        private ISubsystemViewModel subsystem;
+        private SubsystemTreeNode selectedNode;
         private string subsystemName;
 
         public MainFormViewModel(AppBrowser appBrowser)
@@ -74,14 +74,14 @@ namespace CloudAppBrowser.ViewModels
             get { return subsystems; }
         }
 
-        public ISubsystemViewModel Subsystem
+        public SubsystemTreeNode SelectedNode
         {
-            get { return subsystem; }
+            get { return selectedNode; }
             set
             {
-                subsystem = value;
+                selectedNode = value;
                 OnPropertyChanged();
-                SubsystemName = subsystem?.Name;
+                SubsystemName = selectedNode?.SubsystemViewModel?.Name;
             }
         }
 
@@ -104,8 +104,7 @@ namespace CloudAppBrowser.ViewModels
             subsystems.Sort((node1, node2) => string.Compare(node1.Name, node2.Name, StringComparison.Ordinal));
             SubsystemsChanged?.Invoke();
 
-            Subsystem = envNode.SubsystemViewModel;
-            OnPropertyChanged("Subsystem");
+            SelectedNode = envNode;
         }
 
         public delegate void SubsystemsChangedEventHandler();

@@ -40,20 +40,20 @@ namespace CloudAppBrowser.Views
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
         {
-            if (eventArgs.PropertyName == "Subsystem")
+            if (eventArgs.PropertyName == "SelectedNode")
             {
-                ITreeItem treeItem = FindTreeItem(treeNodes, viewModel.Subsystem);
+                ITreeItem treeItem = FindTreeItem(treeNodes, viewModel.SelectedNode);
                 if (SubsystemTree.SelectedItem != treeItem)
                 {
                     SubsystemTree.SelectedItem = treeItem;
                 }
                 SubsystemPanel.RemoveAll();
-                Panel panel = ViewResolver.Instance.CreatePanel(viewModel.Subsystem);
+                Panel panel = ViewResolver.Instance.CreatePanel(viewModel.SelectedNode.SubsystemViewModel);
                 SubsystemPanel.Content = panel;
             }
         }
 
-        private ITreeItem FindTreeItem(TreeItemCollection nodes, ISubsystemViewModel subsystem)
+        private ITreeItem FindTreeItem(TreeItemCollection nodes, SubsystemTreeNode targetNode)
         {
             foreach (ITreeItem treeNode in nodes)
             {
@@ -62,12 +62,11 @@ namespace CloudAppBrowser.Views
                 {
                     continue;
                 }
-                SubsystemTreeNode viewModel = node.Tag as SubsystemTreeNode;
-                if (viewModel != null && viewModel.SubsystemViewModel == subsystem)
+                if (node.Tag == targetNode)
                 {
                     return node;
                 }
-                ITreeItem matchingChild = FindTreeItem(node.Children, subsystem);
+                ITreeItem matchingChild = FindTreeItem(node.Children, targetNode);
                 if (matchingChild != null)
                 {
                     return matchingChild;
@@ -79,8 +78,7 @@ namespace CloudAppBrowser.Views
         private void SubsystemTreeOnSelectionChanged(object sender, EventArgs eventArgs)
         {
             TreeItem selectedItem = SubsystemTree.SelectedItem as TreeItem;
-            SubsystemTreeNode node = selectedItem?.Tag as SubsystemTreeNode;
-            viewModel.Subsystem = node?.SubsystemViewModel;
+            viewModel.SelectedNode = selectedItem?.Tag as SubsystemTreeNode;
         }
 
         private void UpdateTree()
