@@ -48,8 +48,12 @@ namespace CloudAppBrowser.Views
                     SubsystemTree.SelectedItem = treeItem;
                 }
                 SubsystemPanel.RemoveAll();
-                Panel panel = ViewResolver.Instance.CreatePanel(viewModel.SelectedNode.SubsystemViewModel);
-                SubsystemPanel.Content = panel;
+                ISubsystemViewModel selectedSubsystem = viewModel.SelectedNode?.SubsystemViewModel;
+                if (selectedSubsystem != null)
+                {
+                    Panel panel = ViewResolver.Instance.CreatePanel(selectedSubsystem);
+                    SubsystemPanel.Content = panel;
+                }
             }
         }
 

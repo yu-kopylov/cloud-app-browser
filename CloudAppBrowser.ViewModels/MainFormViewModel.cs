@@ -32,6 +32,7 @@ namespace CloudAppBrowser.ViewModels
                 var envNode = CreateTreeNode(environment);
                 subsystems.Add(envNode);
             }
+            SubsystemsChanged?.Invoke();
         }
 
         private SubsystemTreeNode CreateTreeNode(AppEnvironment environment)
