@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -47,32 +48,36 @@ namespace CloudAppBrowser.Core.Services.Eureka
 
         private async void RefreshApplicationsAsync()
         {
-            using (HttpClient client = new HttpClient())
+            using (HttpClientHandler clientHandler = new HttpClientHandler())
             {
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, Url);
-                request.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-                HttpResponseMessage response = await client.SendAsync(request);
-                string responseText = await response.Content.ReadAsStringAsync();
-                JsonSerializer ser = new JsonSerializer();
-                EurekaApplicationsJson apps = ser.Deserialize<EurekaApplicationsJson>(new JsonTextReader(new StringReader(responseText)));
-                Applications.Clear();
-                foreach (EurekaApplicationJson appJson in apps.ApplicationList.Applications)
+                clientHandler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                using (HttpClient client = new HttpClient(clientHandler))
                 {
-                    EurekaApplication app = new EurekaApplication();
-                    Applications.Add(app);
-
-                    app.Name = appJson.Name;
-
-                    foreach (EurekaApplicationInstanceJson instanceJson in appJson.Instances)
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, Url);
+                    request.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    string responseText = await response.Content.ReadAsStringAsync();
+                    JsonSerializer ser = new JsonSerializer();
+                    EurekaApplicationsJson apps = ser.Deserialize<EurekaApplicationsJson>(new JsonTextReader(new StringReader(responseText)));
+                    Applications.Clear();
+                    foreach (EurekaApplicationJson appJson in apps.ApplicationList.Applications)
                     {
-                        EurekaApplicationInstance instance = new EurekaApplicationInstance();
-                        app.Instances.Add(instance);
+                        EurekaApplication app = new EurekaApplication();
+                        Applications.Add(app);
 
-                        instance.InstanceId = instanceJson.InstanceId;
-                        instance.HostName = instanceJson.HostName;
+                        app.Name = appJson.Name;
+
+                        foreach (EurekaApplicationInstanceJson instanceJson in appJson.Instances)
+                        {
+                            EurekaApplicationInstance instance = new EurekaApplicationInstance();
+                            app.Instances.Add(instance);
+
+                            instance.InstanceId = instanceJson.InstanceId;
+                            instance.HostName = instanceJson.HostName;
+                        }
                     }
+                    StateChanged?.Invoke();
                 }
-                StateChanged?.Invoke();
             }
         }
 
