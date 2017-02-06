@@ -45,6 +45,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ServiceType.cs" />
     <Compile Include="BasicCommand.cs" />
+    <Compile Include="Settings\DockerSettingsViewModel.cs" />
     <Compile Include="Settings\EurekaSettingsViewModel.cs" />
     <Compile Include="Subsystems\Docker\DockerContainerViewModel.cs" />
     <Compile Include="Subsystems\Eureka\EurekaApplicationViewModel.cs" />

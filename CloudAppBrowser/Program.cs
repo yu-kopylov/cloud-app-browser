@@ -1,6 +1,5 @@
 ﻿using System;
 using CloudAppBrowser.Core;
-using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels;
 using CloudAppBrowser.Views;
 using Eto;
@@ -17,17 +16,7 @@ namespace CloudAppBrowser
 
             ViewContext.Instance = new EtoViewContext();
 
-            DockerService service = new DockerService();
-            service.Name = "Docker";
-            service.MachineName = "default";
-            service.Connect();
-
             AppBrowser appBrowser = new AppBrowser();
-            appBrowser.Environments.Add(new AppEnvironment
-            {
-                Name = "Env1",
-                Services = {service}
-            });
 
             MainFormViewModel viewModel = new MainFormViewModel(appBrowser);
             MainForm mainForm = new MainForm(viewModel);

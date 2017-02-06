@@ -23,6 +23,7 @@ namespace CloudAppBrowser.Views
             constructors.Add(typeof(DockerSubsystemViewModel), () => new DockerSubsystemView());
             constructors.Add(typeof(EurekaSubsystemViewModel), () => new EurekaSubsystemView());
             constructors.Add(typeof(EurekaSettingsViewModel), () => new EurekaSettingsDialog());
+            constructors.Add(typeof(DockerSettingsViewModel), () => new DockerSettingsDialog());
         }
 
         public Panel CreatePanel(object viewModel)

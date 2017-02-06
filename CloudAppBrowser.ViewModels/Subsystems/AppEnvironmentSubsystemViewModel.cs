@@ -37,10 +37,18 @@ namespace CloudAppBrowser.ViewModels.Subsystems
 
         public void AddDockerService()
         {
-            DockerService service = new DockerService();
+            DockerSettingsViewModel settings = new DockerSettingsViewModel();
+            settings.Name = "Docker";
+            settings.MachineName = "default";
 
-            service.Name = "Docker";
-            service.MachineName = "default";
+            if (!ViewContext.Instance.ShowDialog(settings))
+            {
+                return;
+            }
+
+            DockerService service = new DockerService();
+            service.Name = settings.Name;
+            service.MachineName = settings.MachineName;
 
             environment.AddService(service);
             mainFormViewModel.SelectService(service);

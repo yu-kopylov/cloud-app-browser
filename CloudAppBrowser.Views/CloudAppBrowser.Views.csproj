@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Settings\DockerSettingsDialog.xeto.cs">
+      <DependentUpon>DockerSettingsDialog.xeto</DependentUpon>
+    </Compile>
     <Compile Include="Settings\EurekaSettingsDialog.xeto.cs">
       <DependentUpon>EurekaSettingsDialog.xeto</DependentUpon>
     </Compile>
@@ -93,6 +96,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\EurekaSettingsDialog.xeto">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\DockerSettingsDialog.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
