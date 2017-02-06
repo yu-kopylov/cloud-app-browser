@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using CloudAppBrowser.Core.Services.Docker.Formats;
 using Docker.DotNet;
 using Docker.DotNet.Models;
 using Docker.DotNet.X509;
@@ -15,9 +16,7 @@ namespace CloudAppBrowser.Core.Services.Docker
         private static readonly BasicThreadPool ThreadPool = new BasicThreadPool();
 
         public string Name { get; set; }
-        public string Url { get; set; }
-        public string CertificateFile { get; set; }
-        public string CertificateKeyFile { get; set; }
+        public string MachineName { get; set; }
 
         //todo: Dispose?
         private readonly object monitor = new object();
@@ -47,10 +46,18 @@ namespace CloudAppBrowser.Core.Services.Docker
         {
             connected = true;
 
-            X509Certificate2 cert = CertificateUtils.ReadCertificateWithKey(CertificateFile, CertificateKeyFile, null);
+            string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string configPath = Path.Combine(userProfile, @".docker\machine\machines", MachineName, "config.json");
+            MachineConfigJson machineConfig = MachineConfigJson.Read(File.ReadAllBytes(configPath));
+
+            string clientCertPath = machineConfig.HostOptions.AuthOptions.ClientCertPath;
+            string clientKeyPath = machineConfig.HostOptions.AuthOptions.ClientKeyPath;
+            Uri uri = new Uri($"http://{machineConfig.Driver.IPAddress}:2376");
+
+            X509Certificate2 cert = CertificateUtils.ReadCertificateWithKey(clientCertPath, clientKeyPath, null);
             CertificateCredentials credentials = new CertificateCredentials(cert);
 
-            DockerClientConfiguration config = new DockerClientConfiguration(new Uri(Url), credentials);
+            DockerClientConfiguration config = new DockerClientConfiguration(uri, credentials);
             client = config.CreateClient();
 
             ThreadPool.Execute(RefreshContainerListAsync);

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using CloudAppBrowser.Core;
-using CloudAppBrowser.Core.Services;
 using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels;
 using CloudAppBrowser.Views;
@@ -21,10 +19,7 @@ namespace CloudAppBrowser
 
             DockerService service = new DockerService();
             service.Name = "Docker";
-            string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            service.CertificateFile = Path.Combine(userProfile, @".docker\machine\machines\default\cert.pem");
-            service.CertificateKeyFile = Path.Combine(userProfile, @".docker\machine\machines\default\key.pem");
-            service.Url = "http://192.168.99.100:2376";
+            service.MachineName = "default";
             service.Connect();
 
             AppBrowser appBrowser = new AppBrowser();
