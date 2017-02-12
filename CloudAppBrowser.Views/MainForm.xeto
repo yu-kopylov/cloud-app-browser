@@ -31,7 +31,9 @@
       </Splitter>
     </Splitter.Panel1>
     <Splitter.Panel2>
-      <TextArea ReadOnly="True" Text="{Binding ApplicationLogText}" Font="Monospace"/>
+      <GroupBox Text="Application Log">
+        <TextArea ReadOnly="True" Text="{Binding ApplicationLogText}" Font="Monospace"/>
+      </GroupBox>
     </Splitter.Panel2>
   </Splitter>
 </Form>
