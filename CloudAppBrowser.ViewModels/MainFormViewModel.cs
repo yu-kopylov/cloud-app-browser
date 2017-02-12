@@ -26,7 +26,9 @@ namespace CloudAppBrowser.ViewModels
         {
             this.appBrowser = appBrowser;
             UpdateSubsystems();
+
             ApplicationLog.Instance.PropertyChanged += (sender, args) => ApplicationLogText = ApplicationLog.Instance.LogText;
+            applicationLogText = ApplicationLog.Instance.LogText;
         }
 
         public string ApplicationLogText
