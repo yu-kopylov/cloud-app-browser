@@ -14,8 +14,6 @@ namespace CloudAppBrowser.Core.Services.Docker
 {
     public class DockerService : IService
     {
-        private static readonly BasicThreadPool ThreadPool = new BasicThreadPool();
-
         public string Name { get; set; }
         public string MachineName { get; set; }
 
@@ -64,7 +62,9 @@ namespace CloudAppBrowser.Core.Services.Docker
             await RefreshContainerList();
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task Disconnect()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             connected = false;
 
@@ -103,34 +103,24 @@ namespace CloudAppBrowser.Core.Services.Docker
             ContainersChanged?.Invoke();
         }
 
-        public void StartContainers(List<string> containerIds)
-        {
-            ThreadPool.Execute(() => StartContainersAsync(containerIds));
-        }
-
-        private async void StartContainersAsync(List<string> containerIds)
+        public async Task StartContainers(List<string> containerIds)
         {
             foreach (string containerId in containerIds)
             {
                 ContainerStartParameters startParameters = new ContainerStartParameters();
                 await client.Containers.StartContainerAsync(containerId, startParameters);
             }
-            RefreshContainerList();
+            await RefreshContainerList();
         }
 
-        public void StopContainers(List<string> containerIds)
-        {
-            ThreadPool.Execute(() => StopContainersAsync(containerIds));
-        }
-
-        private async void StopContainersAsync(List<string> containerIds)
+        public async Task StopContainers(List<string> containerIds)
         {
             foreach (string containerId in containerIds)
             {
                 ContainerStopParameters stopParameters = new ContainerStopParameters();
                 await client.Containers.StopContainerAsync(containerId, stopParameters, CancellationToken.None);
             }
-            RefreshContainerList();
+            await RefreshContainerList();
         }
 
         public IEnumerable<DockerContainer> GetContainers()
@@ -141,12 +131,7 @@ namespace CloudAppBrowser.Core.Services.Docker
             }
         }
 
-        public void EnableLogs(string containerId)
-        {
-            ThreadPool.Execute(() => EnableLogsAsync(containerId));
-        }
-
-        private async void EnableLogsAsync(string containerId)
+        public async Task EnableLogs(string containerId)
         {
             ContainerLogsParameters logsParameters = new ContainerLogsParameters();
             logsParameters.Follow = true;

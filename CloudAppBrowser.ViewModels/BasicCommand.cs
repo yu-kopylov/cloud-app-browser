@@ -40,13 +40,13 @@ namespace CloudAppBrowser.ViewModels
             catch (Exception e)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine($"-- Exception: {e.GetType().Name}");
-                sb.AppendLine($"-- StackTrace:");
+                sb.AppendLine($"---- {e.GetType().Name}: {e.Message}");
+                sb.AppendLine($"---- StackTrace:");
                 sb.AppendLine(e.StackTrace);
                 if (e.InnerException != null)
                 {
-                    sb.AppendLine($"-- Caused By: {e.InnerException.GetType().Name}");
-                    sb.AppendLine($"-- StackTrace:");
+                    sb.AppendLine($"---- caused by {e.GetType().Name}: {e.Message}");
+                    sb.AppendLine($"---- StackTrace:");
                     sb.AppendLine(e.InnerException.StackTrace);
                 }
                 ViewContext.Instance.Invoke(() => ViewContext.Instance.MessageBox(sb.ToString(), "Error during command handling."));

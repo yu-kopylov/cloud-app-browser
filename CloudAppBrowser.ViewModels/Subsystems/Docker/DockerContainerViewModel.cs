@@ -14,6 +14,8 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
         public string Created { get; }
         public string State { get; }
 
+        public BasicCommand EnableLogsCommand { get; }
+
         private readonly DockerService service;
 
         private string log;
@@ -26,6 +28,8 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
             ImageId = container.ImageId;
             Created = container.Created.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
             State = container.State;
+
+            EnableLogsCommand = new BasicCommand(() => service.Connected, o => service.EnableLogs(Id));
         }
 
         public string Log
@@ -44,11 +48,6 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void EnableLogs()
-        {
-            service.EnableLogs(Id);
         }
     }
 }

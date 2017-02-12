@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels.Annotations;
 
@@ -125,16 +126,16 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
             }
         }
 
-        public void StartContainers()
+        public async Task StartContainers()
         {
             List<string> containerIds = SelectedContainers.Select(c => c.Id).ToList();
-            service.StartContainers(containerIds);
+            await service.StartContainers(containerIds);
         }
 
-        public void StopContainers()
+        public async Task StopContainers()
         {
             List<string> containerIds = SelectedContainers.Select(c => c.Id).ToList();
-            service.StopContainers(containerIds);
+            await service.StopContainers(containerIds);
         }
 
         private void UpdateContainerList()

@@ -10,7 +10,7 @@
       <TableLayout>
         <TableRow>
           <TableCell>
-            <Button Text="Enable" Click="EnableLogs"/>
+            <Button Text="Enable" Command="{Binding EnableLogsCommand}"/>
           </TableCell>
         </TableRow>
         <TableRow>

@@ -33,7 +33,9 @@ namespace CloudAppBrowser.Core.Services.Eureka
             StateChanged?.Invoke();
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task Disconnect()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             connected = false;
             Applications.Clear();
@@ -83,6 +85,10 @@ namespace CloudAppBrowser.Core.Services.Eureka
                 Uri uri = new Uri(Url + "/" + appId + "/" + instanceId, UriKind.RelativeOrAbsolute);
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, uri);
                 HttpResponseMessage response = await client.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new IOException($"Server responded with HTTP code '{(int) response.StatusCode}'.");
+                }
             }
             await RefreshApplications();
         }

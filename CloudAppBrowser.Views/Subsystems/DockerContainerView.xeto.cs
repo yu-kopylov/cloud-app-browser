@@ -1,6 +1,4 @@
-﻿using System;
-using CloudAppBrowser.ViewModels.Subsystems.Docker;
-using Eto.Forms;
+﻿using Eto.Forms;
 using Eto.Serialization.Xaml;
 
 namespace CloudAppBrowser.Views.Subsystems
@@ -10,12 +8,6 @@ namespace CloudAppBrowser.Views.Subsystems
         public DockerContainerView()
         {
             XamlReader.Load(this);
-        }
-
-        protected void EnableLogs(object sender, EventArgs e)
-        {
-            DockerContainerViewModel viewModel = DataContext as DockerContainerViewModel;
-            viewModel?.EnableLogs();
         }
     }
 }
