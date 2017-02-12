@@ -22,7 +22,8 @@
           <TableCell>
             <GridView ID="ContainersGridView" AllowMultipleSelection="True"
                       DataStore="{Binding Containers}"
-                      SelectedItems="{Binding SelectedContainers}">
+                      SelectedItems="{Binding SelectedContainers}"
+                      Height="200">
               <GridColumn HeaderText="Id">
                 <GridColumn.DataCell>
                   <TextBoxCell ID="IdCell" />

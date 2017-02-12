@@ -19,7 +19,8 @@
       <TableCell>
         <GridView ID="ApplicationsGridView" AllowMultipleSelection="True"
                   DataStore="{Binding Applications}"
-                  SelectedItems="{Binding SelectedApplications}">
+                  SelectedItems="{Binding SelectedApplications}"
+                  Height="200">
           <GridColumn HeaderText="Application Name">
             <GridColumn.DataCell>
               <TextBoxCell ID="AppNameCell" />
