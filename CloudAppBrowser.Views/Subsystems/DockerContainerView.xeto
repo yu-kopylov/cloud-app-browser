@@ -5,6 +5,22 @@
   >
   <TabControl>
     <TabPage Text="Info">
+      <TableLayout>
+        <TableRow>
+          <TableCell>Image: </TableCell>
+          <TableCell>
+            <Label Text="{Binding Image}"/>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Created: </TableCell>
+          <TableCell>
+            <StackLayout>
+              <Label Text="{Binding Created}"/>
+            </StackLayout>
+          </TableCell>
+        </TableRow>
+      </TableLayout>
     </TabPage>
     <TabPage Text="Logs">
       <TableLayout>
