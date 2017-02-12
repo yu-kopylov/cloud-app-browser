@@ -1,16 +1,25 @@
 using System;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CloudAppBrowser.ViewModels.Subsystems.Docker
+namespace CloudAppBrowser.ViewModels
 {
     public class BasicCommand : ICommand
     {
         private readonly Func<bool> canExecute;
-        private readonly Action<object> execute;
+        private readonly Func<object, Task> execute;
 
         private bool canExecuteValue;
 
         public BasicCommand(Func<bool> canExecute, Action<object> execute)
+        {
+            this.canExecute = canExecute;
+            this.execute = obj => Task.Run(() => execute(obj));
+            canExecuteValue = canExecute();
+        }
+
+        public BasicCommand(Func<bool> canExecute, Func<object, Task> execute)
         {
             this.canExecute = canExecute;
             this.execute = execute;
@@ -22,9 +31,26 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
             return canExecute();
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            execute(parameter);
+            try
+            {
+                await execute(parameter);
+            }
+            catch (Exception e)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine($"-- Exception: {e.GetType().Name}");
+                sb.AppendLine($"-- StackTrace:");
+                sb.AppendLine(e.StackTrace);
+                if (e.InnerException != null)
+                {
+                    sb.AppendLine($"-- Caused By: {e.InnerException.GetType().Name}");
+                    sb.AppendLine($"-- StackTrace:");
+                    sb.AppendLine(e.InnerException.StackTrace);
+                }
+                ViewContext.Instance.Invoke(() => ViewContext.Instance.MessageBox(sb.ToString(), "Error during command handling."));
+            }
         }
 
         public void UpdateState()

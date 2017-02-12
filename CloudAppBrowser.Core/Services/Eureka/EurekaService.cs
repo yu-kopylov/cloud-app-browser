@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CloudAppBrowser.Core.Services.Eureka
@@ -27,10 +28,18 @@ namespace CloudAppBrowser.Core.Services.Eureka
             get { return connected; }
         }
 
-        public void Connect()
+        //todo: use async method in interface
+        public async void Connect()
         {
             connected = true;
-            ThreadPool.Execute(RefreshApplicationsAsync);
+            await RefreshApplications();
+            StateChanged?.Invoke();
+        }
+
+        public async Task ConnectAsync()
+        {
+            connected = true;
+            await RefreshApplications();
             StateChanged?.Invoke();
         }
 
@@ -41,12 +50,7 @@ namespace CloudAppBrowser.Core.Services.Eureka
             StateChanged?.Invoke();
         }
 
-        public void RefreshApplications()
-        {
-            ThreadPool.Execute(RefreshApplicationsAsync);
-        }
-
-        private async void RefreshApplicationsAsync()
+        public async Task RefreshApplications()
         {
             using (HttpClientHandler clientHandler = new HttpClientHandler())
             {
@@ -95,7 +99,7 @@ namespace CloudAppBrowser.Core.Services.Eureka
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, uri);
                 HttpResponseMessage response = await client.SendAsync(request);
             }
-            RefreshApplicationsAsync();
+            await RefreshApplications();
         }
     }
 

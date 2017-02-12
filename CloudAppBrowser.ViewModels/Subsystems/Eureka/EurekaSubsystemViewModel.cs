@@ -26,7 +26,7 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Eureka
             this.service = service;
             Name = service.Name;
 
-            ConnectCommand = new BasicCommand(() => !service.Connected, o => service.Connect());
+            ConnectCommand = new BasicCommand(() => !service.Connected, o => service.ConnectAsync());
             DisconnectCommand = new BasicCommand(() => service.Connected, o => service.Disconnect());
             RefreshCommand = new BasicCommand(() => service.Connected, o => service.RefreshApplications());
             DeregisterApplicationsCommand = new BasicCommand(() => service.Connected && SelectedApplications.Count > 0, o => DeregisterApplications());
