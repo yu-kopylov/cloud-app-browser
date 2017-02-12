@@ -45,7 +45,7 @@ namespace CloudAppBrowser.ViewModels
                 sb.AppendLine(e.StackTrace);
                 if (e.InnerException != null)
                 {
-                    sb.AppendLine($"---- caused by {e.GetType().Name}: {e.Message}");
+                    sb.AppendLine($"---- caused by {e.InnerException.GetType().Name}: {e.InnerException.Message}");
                     sb.AppendLine($"---- StackTrace:");
                     sb.AppendLine(e.InnerException.StackTrace);
                 }
