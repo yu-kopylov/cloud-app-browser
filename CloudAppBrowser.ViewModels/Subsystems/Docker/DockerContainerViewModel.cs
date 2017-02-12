@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels.Annotations;
@@ -13,6 +14,7 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
         public string ImageId { get; }
         public string Created { get; }
         public string State { get; }
+        public string PortsAsText { get; }
 
         public BasicCommand EnableLogsCommand { get; }
 
@@ -28,6 +30,7 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
             ImageId = container.ImageId;
             Created = container.Created.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
             State = container.State;
+            PortsAsText = string.Join(", ", container.Ports.Select(p => $"{p.PrivatePort}->{p.PublicPort} ({p.PortType})"));
 
             EnableLogsCommand = new BasicCommand(() => service.Connected, o => service.EnableLogs(Id));
         }

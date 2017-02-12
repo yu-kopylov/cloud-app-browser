@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
@@ -97,6 +98,7 @@ namespace CloudAppBrowser.Core.Services.Docker
                     dockerContainer.ImageId = responseContainer.ImageID;
                     dockerContainer.Created = responseContainer.Created;
                     dockerContainer.State = responseContainer.State;
+                    dockerContainer.Ports = responseContainer.Ports.Select(p => new DockerContainerPort(p.Type, p.PrivatePort, p.PublicPort)).ToArray();
                 }
             }
 

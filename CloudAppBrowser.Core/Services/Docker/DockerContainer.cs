@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 
 namespace CloudAppBrowser.Core.Services.Docker
 {
@@ -10,8 +9,8 @@ namespace CloudAppBrowser.Core.Services.Docker
         public string ImageId { get; set; }
         public DateTime Created { get; set; }
         public string State { get; set; }
-        public string Log { get; set; }
+        public DockerContainerPort[] Ports { get; set; }
 
-        internal Stream Stream { get; set; }
+        public string Log { get; set; }
     }
 }

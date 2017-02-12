@@ -20,6 +20,14 @@
             </StackLayout>
           </TableCell>
         </TableRow>
+        <TableRow>
+          <TableCell>Ports: </TableCell>
+          <TableCell>
+            <StackLayout>
+              <Label Text="{Binding PortsAsText}"/>
+            </StackLayout>
+          </TableCell>
+        </TableRow>
       </TableLayout>
     </TabPage>
     <TabPage Text="Logs">
