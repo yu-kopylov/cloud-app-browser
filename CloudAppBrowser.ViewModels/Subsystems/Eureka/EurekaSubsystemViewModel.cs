@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using CloudAppBrowser.Core.Services.Eureka;
-using CloudAppBrowser.ViewModels.Subsystems.Docker;
 
 namespace CloudAppBrowser.ViewModels.Subsystems.Eureka
 {
@@ -57,12 +57,12 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Eureka
             DeregisterApplicationsCommand.UpdateState();
         }
 
-        private void DeregisterApplications()
+        private async Task DeregisterApplications()
         {
             List<EurekaApplicationViewModel> apps = SelectedApplications.ToList();
             foreach (EurekaApplicationViewModel app in apps)
             {
-                service.Deregister(app.AppName, app.InstanceId);
+                await service.Deregister(app.AppName, app.InstanceId);
             }
         }
     }

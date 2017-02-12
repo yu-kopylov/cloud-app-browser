@@ -11,8 +11,6 @@ namespace CloudAppBrowser.Core.Services.Eureka
 {
     public class EurekaService : IService
     {
-        private static readonly BasicThreadPool ThreadPool = new BasicThreadPool();
-
         public string Name { get; set; }
 
         public string Url { get; set; }
@@ -77,12 +75,7 @@ namespace CloudAppBrowser.Core.Services.Eureka
             }
         }
 
-        public void Deregister(string appId, string instanceId)
-        {
-            ThreadPool.Execute(() => DeregisterAsync(appId, instanceId));
-        }
-
-        private async void DeregisterAsync(string appId, string instanceId)
+        public async Task Deregister(string appId, string instanceId)
         {
             using (HttpClient client = new HttpClient())
             {
