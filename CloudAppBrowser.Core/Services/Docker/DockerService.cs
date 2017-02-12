@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using System.Threading.Tasks;
 using CloudAppBrowser.Core.Services.Docker.Formats;
 using Docker.DotNet;
 using Docker.DotNet.Models;
@@ -42,7 +43,7 @@ namespace CloudAppBrowser.Core.Services.Docker
             get { return connected; }
         }
 
-        public void Connect()
+        public async Task Connect()
         {
             connected = true;
 
@@ -60,10 +61,10 @@ namespace CloudAppBrowser.Core.Services.Docker
             DockerClientConfiguration config = new DockerClientConfiguration(uri, credentials);
             client = config.CreateClient();
 
-            ThreadPool.Execute(RefreshContainerListAsync);
+            await RefreshContainerList();
         }
 
-        public void Disconnect()
+        public async Task Disconnect()
         {
             connected = false;
 
@@ -77,12 +78,7 @@ namespace CloudAppBrowser.Core.Services.Docker
             ContainersChanged?.Invoke();
         }
 
-        public void RefreshContainerList()
-        {
-            ThreadPool.Execute(RefreshContainerListAsync);
-        }
-
-        private async void RefreshContainerListAsync()
+        public async Task RefreshContainerList()
         {
             ContainersListParameters listParameters = new ContainersListParameters();
             listParameters.All = true;
@@ -119,7 +115,7 @@ namespace CloudAppBrowser.Core.Services.Docker
                 ContainerStartParameters startParameters = new ContainerStartParameters();
                 await client.Containers.StartContainerAsync(containerId, startParameters);
             }
-            RefreshContainerListAsync();
+            RefreshContainerList();
         }
 
         public void StopContainers(List<string> containerIds)
@@ -134,7 +130,7 @@ namespace CloudAppBrowser.Core.Services.Docker
                 ContainerStopParameters stopParameters = new ContainerStopParameters();
                 await client.Containers.StopContainerAsync(containerId, stopParameters, CancellationToken.None);
             }
-            RefreshContainerListAsync();
+            RefreshContainerList();
         }
 
         public IEnumerable<DockerContainer> GetContainers()

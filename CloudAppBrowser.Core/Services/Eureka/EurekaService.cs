@@ -28,22 +28,14 @@ namespace CloudAppBrowser.Core.Services.Eureka
             get { return connected; }
         }
 
-        //todo: use async method in interface
-        public async void Connect()
+        public async Task Connect()
         {
             connected = true;
             await RefreshApplications();
             StateChanged?.Invoke();
         }
 
-        public async Task ConnectAsync()
-        {
-            connected = true;
-            await RefreshApplications();
-            StateChanged?.Invoke();
-        }
-
-        public void Disconnect()
+        public async Task Disconnect()
         {
             connected = false;
             Applications.Clear();
