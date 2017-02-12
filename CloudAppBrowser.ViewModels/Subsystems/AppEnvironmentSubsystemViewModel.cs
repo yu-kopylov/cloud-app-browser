@@ -21,10 +21,7 @@ namespace CloudAppBrowser.ViewModels.Subsystems
             Name = environment.Name;
             foreach (IService service in environment.Services)
             {
-                if (service is DockerService)
-                {
-                    services.Add(new ServiceViewModel(service));
-                }
+                services.Add(new ServiceViewModel(service));
             }
         }
 
