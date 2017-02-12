@@ -5,26 +5,33 @@
   Width="800"
   Height="640"
   >
-  <Splitter Position="200">
+  <Splitter Orientation="Vertical" Position="400">
     <Splitter.Panel1>
-      <GroupBox Text="Environments">
-        <TableLayout>
-          <TableRow>
-            <TableCell>
-              <Button Text="Add" Click="AddEnvironment"/>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <TreeView ID="SubsystemTree"/>
-            </TableCell>
-          </TableRow>
-        </TableLayout>
-      </GroupBox>
+      <Splitter Position="200">
+        <Splitter.Panel1>
+          <GroupBox Text="Environments">
+            <TableLayout>
+              <TableRow>
+                <TableCell>
+                  <Button Text="Add" Click="AddEnvironment"/>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <TreeView ID="SubsystemTree"/>
+                </TableCell>
+              </TableRow>
+            </TableLayout>
+          </GroupBox>
+        </Splitter.Panel1>
+        <Splitter.Panel2>
+          <GroupBox ID="SubsystemPanel" Text="{Binding SubsystemName}">
+          </GroupBox>
+        </Splitter.Panel2>
+      </Splitter>
     </Splitter.Panel1>
     <Splitter.Panel2>
-      <GroupBox ID="SubsystemPanel" Text="{Binding SubsystemName}">
-      </GroupBox>
+      <TextArea ReadOnly="True" Text="{Binding ApplicationLogText}" Font="Monospace"/>
     </Splitter.Panel2>
   </Splitter>
 </Form>

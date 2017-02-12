@@ -49,7 +49,7 @@ namespace CloudAppBrowser.ViewModels
                     sb.AppendLine($"---- StackTrace:");
                     sb.AppendLine(e.InnerException.StackTrace);
                 }
-                ViewContext.Instance.Invoke(() => ViewContext.Instance.MessageBox(sb.ToString(), "Error during command handling."));
+                ApplicationLog.Instance.LogInfo(sb.ToString());
             }
         }
 

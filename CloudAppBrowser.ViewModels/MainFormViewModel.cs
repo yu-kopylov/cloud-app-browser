@@ -20,11 +20,23 @@ namespace CloudAppBrowser.ViewModels
         private readonly Dictionary<IService, SubsystemTreeNode> treeNodesByService = new Dictionary<IService, SubsystemTreeNode>();
         private SubsystemTreeNode selectedTreeNode;
         private string subsystemName;
+        private string applicationLogText;
 
         public MainFormViewModel(AppBrowser appBrowser)
         {
             this.appBrowser = appBrowser;
             UpdateSubsystems();
+            ApplicationLog.Instance.PropertyChanged += (sender, args) => ApplicationLogText = ApplicationLog.Instance.LogText;
+        }
+
+        public string ApplicationLogText
+        {
+            get { return applicationLogText; }
+            private set
+            {
+                applicationLogText = value;
+                OnPropertyChanged();
+            }
         }
 
         private void UpdateSubsystems()
