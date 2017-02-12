@@ -46,7 +46,20 @@ namespace CloudAppBrowser.Views
                 if (SubsystemTree.SelectedItem != treeItem)
                 {
                     SubsystemTree.SelectedItem = treeItem;
+                    if (treeItem != null)
+                    {
+                        ITreeItem topParent = treeItem;
+                        ITreeItem parent = treeItem.Parent;
+                        while (parent != null)
+                        {
+                            topParent = parent;
+                            parent.Expanded = true;
+                            parent = parent.Parent;
+                        }
+                        SubsystemTree.RefreshItem(topParent);
+                    }
                 }
+
                 SubsystemPanel.RemoveAll();
                 ISubsystemViewModel selectedSubsystem = viewModel.SelectedTreeNode?.SubsystemViewModel;
                 if (selectedSubsystem != null)
