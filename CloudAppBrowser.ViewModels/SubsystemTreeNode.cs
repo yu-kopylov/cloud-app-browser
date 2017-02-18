@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CloudAppBrowser.ViewModels.Subsystems;
+using CloudAppBrowser.ViewModels.Services;
 
 namespace CloudAppBrowser.ViewModels
 {

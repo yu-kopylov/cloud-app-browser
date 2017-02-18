@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CloudAppBrowser.ViewModels.Subsystems.Eureka;
+using CloudAppBrowser.ViewModels.Services.Eureka;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
 
-namespace CloudAppBrowser.Views.Subsystems
+namespace CloudAppBrowser.Views.Services
 {
     public class EurekaSubsystemView : Panel
     {
@@ -32,7 +32,7 @@ namespace CloudAppBrowser.Views.Subsystems
                 .SelectedItems
                 .Cast<EurekaApplicationViewModel>()
                 .ToList();
-            EurekaSubsystemViewModel viewModel = (EurekaSubsystemViewModel) DataContext;
+            EurekaServiceViewModel viewModel = (EurekaServiceViewModel) DataContext;
             viewModel.SelectedApplications.Clear();
             foreach (EurekaApplicationViewModel containerModel in containers)
             {

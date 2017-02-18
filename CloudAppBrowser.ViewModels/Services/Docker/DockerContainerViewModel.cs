@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels.Annotations;
 
-namespace CloudAppBrowser.ViewModels.Subsystems.Docker
+namespace CloudAppBrowser.ViewModels.Services.Docker
 {
     public class DockerContainerViewModel : INotifyPropertyChanged
     {

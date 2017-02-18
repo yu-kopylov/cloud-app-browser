@@ -1,4 +1,4 @@
-﻿namespace CloudAppBrowser.ViewModels.Subsystems
+﻿namespace CloudAppBrowser.ViewModels.Services
 {
     public interface ISubsystemViewModel
     {

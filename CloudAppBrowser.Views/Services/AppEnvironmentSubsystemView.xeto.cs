@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CloudAppBrowser.ViewModels.Subsystems;
+using CloudAppBrowser.ViewModels.Services;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
 
-namespace CloudAppBrowser.Views.Subsystems
+namespace CloudAppBrowser.Views.Services
 {
     public class AppEnvironmentSubsystemView : Panel
     {
@@ -22,13 +22,13 @@ namespace CloudAppBrowser.Views.Subsystems
 
         public void AddDockerService(object sender, EventArgs e)
         {
-            AppEnvironmentSubsystemViewModel model = (AppEnvironmentSubsystemViewModel) DataContext;
+            AppEnvironmentViewModel model = (AppEnvironmentViewModel) DataContext;
             model.AddDockerService();
         }
 
         public void AddEurekaService(object sender, EventArgs e)
         {
-            AppEnvironmentSubsystemViewModel model = (AppEnvironmentSubsystemViewModel) DataContext;
+            AppEnvironmentViewModel model = (AppEnvironmentViewModel) DataContext;
             model.AddEurekaService();
         }
 
@@ -45,7 +45,7 @@ namespace CloudAppBrowser.Views.Subsystems
                 return;
             }
 
-            AppEnvironmentSubsystemViewModel model = (AppEnvironmentSubsystemViewModel) DataContext;
+            AppEnvironmentViewModel model = (AppEnvironmentViewModel) DataContext;
             foreach (ServiceViewModel service in services)
             {
                 model.RemoveService(service);

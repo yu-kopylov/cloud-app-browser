@@ -5,16 +5,16 @@ using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.Core.Services.Eureka;
 using CloudAppBrowser.ViewModels.Settings;
 
-namespace CloudAppBrowser.ViewModels.Subsystems
+namespace CloudAppBrowser.ViewModels.Services
 {
-    public class AppEnvironmentSubsystemViewModel : ISubsystemViewModel
+    public class AppEnvironmentViewModel : ISubsystemViewModel
     {
         private readonly MainFormViewModel mainFormViewModel;
         private readonly AppEnvironment environment;
 
         private readonly List<ServiceViewModel> services = new List<ServiceViewModel>();
 
-        public AppEnvironmentSubsystemViewModel(MainFormViewModel mainFormViewModel, AppEnvironment environment)
+        public AppEnvironmentViewModel(MainFormViewModel mainFormViewModel, AppEnvironment environment)
         {
             this.mainFormViewModel = mainFormViewModel;
             this.environment = environment;

@@ -58,13 +58,13 @@
     <Compile Include="Settings\EurekaSettingsDialog.xeto.cs">
       <DependentUpon>EurekaSettingsDialog.xeto</DependentUpon>
     </Compile>
-    <Compile Include="Subsystems\DockerContainerView.xeto.cs">
+    <Compile Include="Services\DockerContainerView.xeto.cs">
       <DependentUpon>DockerContainerView.xeto</DependentUpon>
     </Compile>
-    <Compile Include="Subsystems\EurekaSubsystemView.xeto.cs">
+    <Compile Include="Services\EurekaSubsystemView.xeto.cs">
       <DependentUpon>EurekaSubsystemView.xeto</DependentUpon>
     </Compile>
-    <Compile Include="Subsystems\DockerSubsystemView.xeto.cs">
+    <Compile Include="Services\DockerSubsystemView.xeto.cs">
       <DependentUpon>DockerSubsystemView.xeto</DependentUpon>
     </Compile>
     <Compile Include="ViewResolver.cs" />
@@ -72,7 +72,7 @@
       <DependentUpon>MainForm.xeto</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Subsystems\AppEnvironmentSubsystemView.xeto.cs">
+    <Compile Include="Services\AppEnvironmentSubsystemView.xeto.cs">
       <DependentUpon>AppEnvironmentSubsystemView.xeto</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -85,14 +85,14 @@
   <ItemGroup>
     <EmbeddedResource Include="MainForm.xeto" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="Subsystems\AppEnvironmentSubsystemView.xeto" />
-    <EmbeddedResource Include="Subsystems\DockerSubsystemView.xeto">
+    <EmbeddedResource Include="Services\AppEnvironmentSubsystemView.xeto" />
+    <EmbeddedResource Include="Services\DockerSubsystemView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subsystems\DockerContainerView.xeto">
+    <EmbeddedResource Include="Services\DockerContainerView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subsystems\EurekaSubsystemView.xeto">
+    <EmbeddedResource Include="Services\EurekaSubsystemView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\EurekaSettingsDialog.xeto">

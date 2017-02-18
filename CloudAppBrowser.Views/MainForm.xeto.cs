@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using CloudAppBrowser.ViewModels;
-using CloudAppBrowser.ViewModels.Subsystems;
+using CloudAppBrowser.ViewModels.Services;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
 

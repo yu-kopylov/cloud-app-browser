@@ -1,4 +1,4 @@
-﻿namespace CloudAppBrowser.ViewModels.Subsystems.Eureka
+﻿namespace CloudAppBrowser.ViewModels.Services.Eureka
 {
     public class EurekaApplicationViewModel
     {

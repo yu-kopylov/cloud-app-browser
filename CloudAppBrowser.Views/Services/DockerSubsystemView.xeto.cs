@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CloudAppBrowser.ViewModels.Subsystems.Docker;
+using CloudAppBrowser.ViewModels.Services.Docker;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
 
-namespace CloudAppBrowser.Views.Subsystems
+namespace CloudAppBrowser.Views.Services
 {
     public class DockerSubsystemView : Panel
     {
@@ -36,7 +36,7 @@ namespace CloudAppBrowser.Views.Subsystems
                 .SelectedItems
                 .Cast<DockerContainerViewModel>()
                 .ToList();
-            DockerSubsystemViewModel viewModel = (DockerSubsystemViewModel) DataContext;
+            DockerServiceViewModel viewModel = (DockerServiceViewModel) DataContext;
             viewModel.SelectedContainers.Clear();
             foreach (DockerContainerViewModel containerModel in containers)
             {

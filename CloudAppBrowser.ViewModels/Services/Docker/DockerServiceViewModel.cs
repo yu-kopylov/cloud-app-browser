@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels.Annotations;
 
-namespace CloudAppBrowser.ViewModels.Subsystems.Docker
+namespace CloudAppBrowser.ViewModels.Services.Docker
 {
-    public class DockerSubsystemViewModel : ISubsystemViewModel, INotifyPropertyChanged, IDisposable
+    public class DockerServiceViewModel : ISubsystemViewModel, INotifyPropertyChanged, IDisposable
     {
         public string Name { get; set; }
         public ObservableCollection<DockerContainerViewModel> Containers { get; } = new ObservableCollection<DockerContainerViewModel>();
@@ -31,7 +31,7 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Docker
         private readonly HashSet<string> updatedLogs = new HashSet<string>();
         private readonly object updatedLogsMonitor = new object();
 
-        public DockerSubsystemViewModel(DockerService service)
+        public DockerServiceViewModel(DockerService service)
         {
             this.service = service;
             Name = service.Name;

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CloudAppBrowser.Core.Services.Eureka;
 
-namespace CloudAppBrowser.ViewModels.Subsystems.Eureka
+namespace CloudAppBrowser.ViewModels.Services.Eureka
 {
-    public class EurekaSubsystemViewModel : ISubsystemViewModel
+    public class EurekaServiceViewModel : ISubsystemViewModel
     {
         private readonly EurekaService service;
 
@@ -21,7 +21,7 @@ namespace CloudAppBrowser.ViewModels.Subsystems.Eureka
         public BasicCommand RefreshCommand { get; }
         public BasicCommand DeregisterApplicationsCommand { get; }
 
-        public EurekaSubsystemViewModel(EurekaService service)
+        public EurekaServiceViewModel(EurekaService service)
         {
             this.service = service;
             Name = service.Name;

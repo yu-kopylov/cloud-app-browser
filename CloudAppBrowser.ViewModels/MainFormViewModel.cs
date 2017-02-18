@@ -6,9 +6,9 @@ using CloudAppBrowser.Core;
 using CloudAppBrowser.Core.Services;
 using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.Core.Services.Eureka;
-using CloudAppBrowser.ViewModels.Subsystems;
-using CloudAppBrowser.ViewModels.Subsystems.Docker;
-using CloudAppBrowser.ViewModels.Subsystems.Eureka;
+using CloudAppBrowser.ViewModels.Services;
+using CloudAppBrowser.ViewModels.Services.Docker;
+using CloudAppBrowser.ViewModels.Services.Eureka;
 
 namespace CloudAppBrowser.ViewModels
 {
@@ -55,7 +55,7 @@ namespace CloudAppBrowser.ViewModels
 
         private SubsystemTreeNode CreateTreeNode(AppEnvironment environment)
         {
-            AppEnvironmentSubsystemViewModel envViewModel = new AppEnvironmentSubsystemViewModel(this, environment);
+            AppEnvironmentViewModel envViewModel = new AppEnvironmentViewModel(this, environment);
             SubsystemTreeNode envNode = CreateNode(envViewModel);
 
             foreach (IService service in environment.Services)
@@ -84,11 +84,11 @@ namespace CloudAppBrowser.ViewModels
         {
             if (service is DockerService)
             {
-                return new DockerSubsystemViewModel((DockerService) service);
+                return new DockerServiceViewModel((DockerService) service);
             }
             if (service is EurekaService)
             {
-                return new EurekaSubsystemViewModel((EurekaService) service);
+                return new EurekaServiceViewModel((EurekaService) service);
             }
             return null;
         }
