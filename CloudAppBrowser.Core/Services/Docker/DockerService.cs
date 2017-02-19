@@ -21,7 +21,7 @@ namespace CloudAppBrowser.Core.Services.Docker
         //todo: Dispose?
         private readonly object monitor = new object();
         private DockerClient client;
-        private readonly List<DockerContainer> containers = new List<DockerContainer>();
+        private readonly Dictionary<string, DockerContainer> containers = new Dictionary<string, DockerContainer>();
         private readonly Dictionary<string, DockerLogReader> logReaders = new Dictionary<string, DockerLogReader>();
 
         private bool connected;
@@ -69,12 +69,15 @@ namespace CloudAppBrowser.Core.Services.Docker
         {
             connected = false;
 
-            foreach (DockerLogReader logReader in logReaders.Values)
+            lock (monitor)
             {
-                logReader.Stop();
+                foreach (DockerLogReader logReader in logReaders.Values)
+                {
+                    logReader.Stop();
+                }
+                logReaders.Clear();
+                containers.Clear();
             }
-            logReaders.Clear();
-            containers.Clear();
 
             ContainersChanged?.Invoke();
         }
@@ -87,11 +90,16 @@ namespace CloudAppBrowser.Core.Services.Docker
 
             lock (monitor)
             {
-                containers.Clear();
+                HashSet<string> removedContainerIds = new HashSet<string>(containers.Keys);
                 foreach (ContainerListResponse responseContainer in responseContainers)
                 {
-                    DockerContainer dockerContainer = new DockerContainer();
-                    containers.Add(dockerContainer);
+                    removedContainerIds.Remove(responseContainer.ID);
+                    DockerContainer dockerContainer;
+                    if (!containers.TryGetValue(responseContainer.ID, out dockerContainer))
+                    {
+                        dockerContainer = new DockerContainer();
+                        containers.Add(responseContainer.ID, dockerContainer);
+                    }
 
                     dockerContainer.Id = responseContainer.ID;
                     dockerContainer.Image = responseContainer.Image;
@@ -99,6 +107,16 @@ namespace CloudAppBrowser.Core.Services.Docker
                     dockerContainer.Created = responseContainer.Created;
                     dockerContainer.State = responseContainer.State;
                     dockerContainer.Ports = responseContainer.Ports.Select(p => new DockerContainerPort(p.Type, p.PrivatePort, p.PublicPort)).ToArray();
+                }
+                foreach (string containerId in removedContainerIds)
+                {
+                    containers.Remove(containerId);
+                    DockerLogReader logReader;
+                    if (logReaders.TryGetValue(containerId, out logReader))
+                    {
+                        logReader.Stop();
+                        logReaders.Remove(containerId);
+                    }
                 }
             }
 
@@ -129,7 +147,7 @@ namespace CloudAppBrowser.Core.Services.Docker
         {
             lock (monitor)
             {
-                return new List<DockerContainer>(containers);
+                return new List<DockerContainer>(containers.Values);
             }
         }
 

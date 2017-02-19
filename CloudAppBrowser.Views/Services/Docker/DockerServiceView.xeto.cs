@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using CloudAppBrowser.ViewModels.Services.Docker;
 using Eto.Forms;
@@ -22,12 +24,44 @@ namespace CloudAppBrowser.Views.Services.Docker
         public DockerServiceView()
         {
             XamlReader.Load(this);
-            IdCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.Id);
-            ImageCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.Image);
-            ImageIdCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.ImageId);
-            CreatedCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.Created);
-            StateCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.State);
+
+            DataContextChanged += (sender, args) =>
+            {
+                DockerServiceViewModel viewModel = DataContext as DockerServiceViewModel;
+                if (viewModel == null)
+                {
+                    return;
+                }
+                if (viewModel.Containers == null)
+                {
+                    return;
+                }
+                viewModel.Containers.CollectionChanged += (o, eventArgs) => BindCollectionItems(viewModel.Containers);
+            };
+
+            IdCell.Binding = Binding.Property<DockerContainerViewModel, string>(c => c.Id);
+            ImageCell.Binding = Binding.Property<DockerContainerViewModel, string>(c => c.Image);
+            ImageIdCell.Binding = Binding.Property<DockerContainerViewModel, string>(c => c.ImageId);
+            CreatedCell.Binding = Binding.Property<DockerContainerViewModel, string>(c => c.Created);
+            StateCell.Binding = Binding.Property<DockerContainerViewModel, string>(c => c.State);
             ContainersGridView.SelectionChanged += ContainersGridViewOnSelectionChanged;
+        }
+
+        //todo: workaround for bug in Eto.Forms (probably related to https://github.com/picoe/Eto/issues/515)
+        private void BindCollectionItems(ObservableCollection<DockerContainerViewModel> containers)
+        {
+            Dictionary<DockerContainerViewModel, PropertyChangedEventHandler> propertyChangedHandlers = new Dictionary<DockerContainerViewModel, PropertyChangedEventHandler>();
+            foreach (DockerContainerViewModel container in containers)
+            {
+                if (propertyChangedHandlers.ContainsKey(container))
+                {
+                    return;
+                }
+                //todo: there is a potential memory leak here
+                PropertyChangedEventHandler handler = (sender, args) => { ContainersGridView.Invalidate(); };
+                container.PropertyChanged += handler;
+                propertyChangedHandlers.Add(container, handler);
+            }
         }
 
         private void ContainersGridViewOnSelectionChanged(object sender, EventArgs eventArgs)

@@ -9,36 +9,110 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
 {
     public class DockerContainerViewModel : INotifyPropertyChanged
     {
-        public string Id { get; private set; }
-        public string Image { get; private set; }
-        public string ImageId { get; private set; }
-        public string Created { get; private set; }
-        public string State { get; private set; }
-        public string PortsAsText { get; private set; }
+        public DockerService Service { get; }
+        public DockerContainer Container { get; }
 
-        public BasicCommand EnableLogsCommand { get; }
-
-        private readonly DockerService service;
+        public string Id { get; }
+        private string image;
+        private string imageId;
+        private string created;
+        private string state;
+        private string portsAsText;
 
         private string log;
 
+        public BasicCommand EnableLogsCommand { get; }
+
         public DockerContainerViewModel(DockerService service, DockerContainer container)
         {
-            this.service = service;
+            Service = service;
             Container = container;
+            Id = container.Id;
 
             Update();
 
-            EnableLogsCommand = new BasicCommand(() => service.Connected, o => service.EnableLogs(Id));
+            EnableLogsCommand = new BasicCommand(() => Service.Connected, o => service.EnableLogs(Id));
         }
 
-        public DockerContainer Container { get; }
+        public string Image
+        {
+            get { return image; }
+            private set
+            {
+                if (image == value)
+                {
+                    return;
+                }
+                image = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ImageId
+        {
+            get { return imageId; }
+            private set
+            {
+                if (imageId == value)
+                {
+                    return;
+                }
+                imageId = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Created
+        {
+            get { return created; }
+            private set
+            {
+                if (created == value)
+                {
+                    return;
+                }
+                created = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string State
+        {
+            get { return state; }
+            private set
+            {
+                if (state == value)
+                {
+                    return;
+                }
+                state = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string PortsAsText
+        {
+            get { return portsAsText; }
+            private set
+            {
+                if (portsAsText == value)
+                {
+                    return;
+                }
+                portsAsText = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Log
         {
             get { return log; }
             set
             {
+                if (log == value)
+                {
+                    return;
+                }
                 log = value;
                 OnPropertyChanged();
             }
@@ -54,7 +128,6 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
 
         public void Update()
         {
-            Id = Container.Id;
             Image = Container.Image;
             ImageId = Container.ImageId;
             Created = Container.Created.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
