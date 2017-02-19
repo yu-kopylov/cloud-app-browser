@@ -52,28 +52,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\ModulesTreeView.xeto.cs">
+      <DependentUpon>ModulesTreeView.xeto</DependentUpon>
+    </Compile>
     <Compile Include="Settings\DockerSettingsDialog.xeto.cs">
       <DependentUpon>DockerSettingsDialog.xeto</DependentUpon>
     </Compile>
     <Compile Include="Settings\EurekaSettingsDialog.xeto.cs">
       <DependentUpon>EurekaSettingsDialog.xeto</DependentUpon>
     </Compile>
-    <Compile Include="Services\DockerContainerView.xeto.cs">
+    <Compile Include="Services\Docker\DockerContainerView.xeto.cs">
       <DependentUpon>DockerContainerView.xeto</DependentUpon>
     </Compile>
-    <Compile Include="Services\EurekaSubsystemView.xeto.cs">
-      <DependentUpon>EurekaSubsystemView.xeto</DependentUpon>
+    <Compile Include="Services\Eureka\EurekaServiceView.xeto.cs">
+      <DependentUpon>EurekaServiceView.xeto</DependentUpon>
     </Compile>
-    <Compile Include="Services\DockerSubsystemView.xeto.cs">
-      <DependentUpon>DockerSubsystemView.xeto</DependentUpon>
+    <Compile Include="Services\Docker\DockerServiceView.xeto.cs">
+      <DependentUpon>DockerServiceView.xeto</DependentUpon>
     </Compile>
     <Compile Include="ViewResolver.cs" />
     <Compile Include="MainForm.xeto.cs">
       <DependentUpon>MainForm.xeto</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AppEnvironmentSubsystemView.xeto.cs">
-      <DependentUpon>AppEnvironmentSubsystemView.xeto</DependentUpon>
+    <Compile Include="Services\AppEnvironmentView.xeto.cs">
+      <DependentUpon>AppEnvironmentView.xeto</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -85,20 +88,23 @@
   <ItemGroup>
     <EmbeddedResource Include="MainForm.xeto" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="Services\AppEnvironmentSubsystemView.xeto" />
-    <EmbeddedResource Include="Services\DockerSubsystemView.xeto">
+    <EmbeddedResource Include="Services\AppEnvironmentView.xeto" />
+    <EmbeddedResource Include="Services\Docker\DockerServiceView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\DockerContainerView.xeto">
+    <EmbeddedResource Include="Services\Docker\DockerContainerView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\EurekaSubsystemView.xeto">
+    <EmbeddedResource Include="Services\Eureka\EurekaServiceView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\EurekaSettingsDialog.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\DockerSettingsDialog.xeto">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ModulesTreeView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

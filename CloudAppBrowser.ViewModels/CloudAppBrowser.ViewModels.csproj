@@ -40,23 +40,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppBrowserViewModel.cs" />
     <Compile Include="ApplicationLog.cs" />
     <Compile Include="IViewResolver.cs" />
     <Compile Include="ObservableCollectionMapper.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ServiceType.cs" />
+    <Compile Include="Services\IServiceViewModel.cs" />
+    <Compile Include="Services\ModulesTreeViewModel.cs" />
+    <Compile Include="Services\ServiceType.cs" />
     <Compile Include="BasicCommand.cs" />
     <Compile Include="Settings\DockerSettingsViewModel.cs" />
     <Compile Include="Settings\EurekaSettingsViewModel.cs" />
     <Compile Include="Services\Docker\DockerContainerViewModel.cs" />
     <Compile Include="Services\Eureka\EurekaApplicationViewModel.cs" />
     <Compile Include="Services\Eureka\EurekaServiceViewModel.cs" />
-    <Compile Include="Services\ServiceViewModel.cs" />
     <Compile Include="ViewContext.cs" />
-    <Compile Include="SubsystemTreeNode.cs" />
     <Compile Include="Services\AppEnvironmentViewModel.cs" />
     <Compile Include="Services\Docker\DockerServiceViewModel.cs" />
-    <Compile Include="Services\ISubsystemViewModel.cs" />
+    <Compile Include="Services\IModuleViewModel.cs" />
     <Compile Include="MainFormViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

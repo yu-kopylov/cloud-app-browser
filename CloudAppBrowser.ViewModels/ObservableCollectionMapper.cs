@@ -247,7 +247,7 @@ namespace CloudAppBrowser.ViewModels
             int hi = values.Count - 1;
             while (low <= hi)
             {
-                int mid = (hi + low)/2;
+                int mid = (hi + low) / 2;
                 if (values[mid] < value)
                 {
                     low = mid + 1;

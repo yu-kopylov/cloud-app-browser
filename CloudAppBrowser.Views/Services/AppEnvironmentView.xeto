@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <Panel
-  xmlns="http://schema.picoe.ca/eto.forms" 
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  >
+  xmlns="http://schema.picoe.ca/eto.forms"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <GroupBox Text="Services">
     <TableLayout>
       <TableRow>
         <TableCell>
           <StackLayout Orientation="Horizontal">
-            <Button Text="Add Docker" Click="AddDockerService"/>
-            <Button Text="Add Eureka" Click="AddEurekaService"/>
-            <Button Text="Remove" Click="RemoveService"/>
+            <Button Text="Add Docker" Click="AddDockerService" />
+            <Button Text="Add Eureka" Click="AddEurekaService" />
+            <Button Text="Remove" Click="RemoveService" />
           </StackLayout>
         </TableCell>
       </TableRow>
@@ -19,12 +19,12 @@
           <GridView ID="ServicesGridView" DataStore="{Binding Services}">
             <GridColumn HeaderText="Type">
               <GridColumn.DataCell>
-                <TextBoxCell ID="ServiceTypeCell"/>
+                <TextBoxCell ID="ServiceTypeCell" />
               </GridColumn.DataCell>
             </GridColumn>
             <GridColumn HeaderText="Name">
               <GridColumn.DataCell>
-                <TextBoxCell ID="ServiceNameCell"/>
+                <TextBoxCell ID="ServiceNameCell" />
               </GridColumn.DataCell>
             </GridColumn>
           </GridView>

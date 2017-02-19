@@ -5,9 +5,9 @@ using CloudAppBrowser.ViewModels.Services.Docker;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
 
-namespace CloudAppBrowser.Views.Services
+namespace CloudAppBrowser.Views.Services.Docker
 {
-    public class DockerSubsystemView : Panel
+    public class DockerServiceView : Panel
     {
         protected GridView ContainersGridView;
 
@@ -19,7 +19,7 @@ namespace CloudAppBrowser.Views.Services
 
         protected DockerContainerView ContainerView;
 
-        public DockerSubsystemView()
+        public DockerServiceView()
         {
             XamlReader.Load(this);
             IdCell.Binding = Binding.Delegate<DockerContainerViewModel, string>(c => c.Id);

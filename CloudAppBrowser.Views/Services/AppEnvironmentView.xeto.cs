@@ -7,17 +7,17 @@ using Eto.Serialization.Xaml;
 
 namespace CloudAppBrowser.Views.Services
 {
-    public class AppEnvironmentSubsystemView : Panel
+    public class AppEnvironmentView : Panel
     {
         protected GridView ServicesGridView;
         protected TextBoxCell ServiceTypeCell;
         protected TextBoxCell ServiceNameCell;
 
-        public AppEnvironmentSubsystemView()
+        public AppEnvironmentView()
         {
             XamlReader.Load(this);
-            ServiceTypeCell.Binding = Binding.Delegate<ServiceViewModel, string>(c => c.ServiceType.ToString());
-            ServiceNameCell.Binding = Binding.Delegate<ServiceViewModel, string>(c => c.ServiceName);
+            ServiceTypeCell.Binding = Binding.Delegate<IServiceViewModel, string>(c => c.ServiceType.ToString());
+            ServiceNameCell.Binding = Binding.Delegate<IServiceViewModel, string>(c => c.ModuleName);
         }
 
         public void AddDockerService(object sender, EventArgs e)
@@ -34,9 +34,9 @@ namespace CloudAppBrowser.Views.Services
 
         public void RemoveService(object sender, EventArgs e)
         {
-            List<ServiceViewModel> services = ServicesGridView
+            List<IServiceViewModel> services = ServicesGridView
                 .SelectedItems
-                .Cast<ServiceViewModel>()
+                .Cast<IServiceViewModel>()
                 .ToList();
 
             if (!services.Any())
@@ -46,7 +46,7 @@ namespace CloudAppBrowser.Views.Services
             }
 
             AppEnvironmentViewModel model = (AppEnvironmentViewModel) DataContext;
-            foreach (ServiceViewModel service in services)
+            foreach (IServiceViewModel service in services)
             {
                 model.RemoveService(service);
             }

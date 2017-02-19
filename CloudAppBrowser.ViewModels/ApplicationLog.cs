@@ -35,7 +35,7 @@ namespace CloudAppBrowser.ViewModels
                 logText = newText.Abbreviate(MaxLength);
             }
 
-            ViewContext.Instance.Invoke(() => OnPropertyChanged("LogText"));
+            OnPropertyChanged(nameof(LogText));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

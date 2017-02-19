@@ -3,7 +3,7 @@
 <Panel
   xmlns="http://schema.picoe.ca/eto.forms"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:v="clr-namespace:CloudAppBrowser.Views.Services;assembly=CloudAppBrowser.Views">
+  xmlns:v="clr-namespace:CloudAppBrowser.Views.Services.Docker;assembly=CloudAppBrowser.Views">
   <Splitter Orientation="Vertical">
     <Splitter.Panel1>
       <TableLayout>

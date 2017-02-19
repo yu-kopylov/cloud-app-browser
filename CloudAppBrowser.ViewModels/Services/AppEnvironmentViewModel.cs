@@ -1,78 +1,120 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using CloudAppBrowser.Core;
 using CloudAppBrowser.Core.Services;
 using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.Core.Services.Eureka;
+using CloudAppBrowser.ViewModels.Services.Docker;
+using CloudAppBrowser.ViewModels.Services.Eureka;
 using CloudAppBrowser.ViewModels.Settings;
 
 namespace CloudAppBrowser.ViewModels.Services
 {
-    public class AppEnvironmentViewModel : ISubsystemViewModel
+    public class AppEnvironmentViewModel : IModuleViewModel
     {
-        private readonly MainFormViewModel mainFormViewModel;
+        private readonly ObservableCollectionMapper<IService, IServiceViewModel> serviceMapper;
+        private readonly AppBrowserViewModel appBrowserViewModel;
         private readonly AppEnvironment environment;
 
-        private readonly List<ServiceViewModel> services = new List<ServiceViewModel>();
-
-        public AppEnvironmentViewModel(MainFormViewModel mainFormViewModel, AppEnvironment environment)
+        public AppEnvironmentViewModel(AppBrowserViewModel appBrowserViewModel, AppEnvironment environment)
         {
-            this.mainFormViewModel = mainFormViewModel;
+            this.appBrowserViewModel = appBrowserViewModel;
             this.environment = environment;
-            Name = environment.Name;
-            foreach (IService service in environment.Services)
-            {
-                services.Add(new ServiceViewModel(service));
-            }
+
+            serviceMapper = new ObservableCollectionMapper<IService, IServiceViewModel>(
+                CreateServiceViewModel,
+                viewModel => viewModel.Service,
+                (service, viewModel) => viewModel.Update(),
+                (viewModel1, viewModel2) => string.CompareOrdinal(viewModel1.ModuleName, viewModel2.ModuleName)
+            );
+
+            environment.ServiceListChanged += Update;
+            Services.CollectionChanged += (sender, args) => SubModulesChanged?.Invoke();
+            Update();
         }
 
-        public string Name { get; }
+        public string ModuleName { get; private set; }
 
-        public List<ServiceViewModel> Services
+        public IEnumerable<IModuleViewModel> GetSubModules()
         {
-            get { return services; }
+            return Services;
         }
+
+        public event Action SubModulesChanged;
+
+        public AppEnvironment Environment
+        {
+            get { return environment; }
+        }
+
+        public ObservableCollection<IServiceViewModel> Services { get; } = new ObservableCollection<IServiceViewModel>();
 
         public void AddDockerService()
         {
             DockerSettingsViewModel settings = new DockerSettingsViewModel();
-            settings.Name = "Docker";
+            settings.ServiceName = "Docker";
             settings.MachineName = "default";
 
-            if (!ViewContext.Instance.ShowDialog(settings))
+            if (!appBrowserViewModel.ViewContext.ShowDialog(settings))
             {
                 return;
             }
 
             DockerService service = new DockerService();
-            service.Name = settings.Name;
+            service.Name = settings.ServiceName;
             service.MachineName = settings.MachineName;
 
             environment.AddService(service);
-            mainFormViewModel.SelectService(service);
+
+            IServiceViewModel serviceViewModel = Services.FirstOrDefault(s => s.Service == service);
+            appBrowserViewModel.MainForm.ModulesTree.SelectedModule = serviceViewModel;
         }
 
         public void AddEurekaService()
         {
             EurekaSettingsViewModel settings = new EurekaSettingsViewModel();
-            settings.Name = "Eureka";
+            settings.ServiceName = "Eureka";
             settings.Url = "http://<host>:<port>/eureka/apps";
 
-            if (!ViewContext.Instance.ShowDialog(settings))
+            if (!appBrowserViewModel.ViewContext.ShowDialog(settings))
             {
                 return;
             }
 
             EurekaService service = new EurekaService();
-            service.Name = settings.Name;
+            service.Name = settings.ServiceName;
             service.Url = settings.Url;
 
             environment.AddService(service);
-            mainFormViewModel.SelectService(service);
+
+            IServiceViewModel serviceViewModel = Services.FirstOrDefault(s => s.Service == service);
+            appBrowserViewModel.MainForm.ModulesTree.SelectedModule = serviceViewModel;
         }
 
-        public void RemoveService(ServiceViewModel service)
+        public void RemoveService(IServiceViewModel service)
         {
             environment.RemoveService(service.Service);
+        }
+
+        public void Update()
+        {
+            ModuleName = environment.Name;
+            serviceMapper.UpdateCollection(environment.Services, Services);
+        }
+
+        private IServiceViewModel CreateServiceViewModel(IService service)
+        {
+            if (service is DockerService)
+            {
+                return new DockerServiceViewModel(appBrowserViewModel, (DockerService) service);
+            }
+            if (service is EurekaService)
+            {
+                return new EurekaServiceViewModel(appBrowserViewModel, (EurekaService) service);
+            }
+            throw new InvalidOperationException($"Cannot create view-model for service of type '{service?.GetType().Name}'.");
         }
     }
 }

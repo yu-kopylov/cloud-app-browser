@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using CloudAppBrowser.Core.Services;
-using CloudAppBrowser.Core.Services.Docker;
 
 namespace CloudAppBrowser.Core
 {

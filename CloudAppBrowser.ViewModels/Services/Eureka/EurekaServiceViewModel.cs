@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using CloudAppBrowser.Core.Services;
 using CloudAppBrowser.Core.Services.Eureka;
 
 namespace CloudAppBrowser.ViewModels.Services.Eureka
 {
-    public class EurekaServiceViewModel : ISubsystemViewModel
+    public class EurekaServiceViewModel : IServiceViewModel
     {
-        private readonly EurekaService service;
+        private readonly ObservableCollectionMapper<Tuple<EurekaApplication, EurekaApplicationInstance>, EurekaApplicationViewModel> appMapper;
 
-        public string Name { get; set; }
+        private readonly AppBrowserViewModel appBrowserViewModel;
+        private readonly EurekaService service;
 
         public ObservableCollection<EurekaApplicationViewModel> Applications { get; } = new ObservableCollection<EurekaApplicationViewModel>();
 
@@ -21,10 +24,29 @@ namespace CloudAppBrowser.ViewModels.Services.Eureka
         public BasicCommand RefreshCommand { get; }
         public BasicCommand DeregisterApplicationsCommand { get; }
 
-        public EurekaServiceViewModel(EurekaService service)
+        public EurekaServiceViewModel(AppBrowserViewModel appBrowserViewModel, EurekaService service)
         {
+            this.appBrowserViewModel = appBrowserViewModel;
             this.service = service;
-            Name = service.Name;
+
+            appMapper = new ObservableCollectionMapper<Tuple<EurekaApplication, EurekaApplicationInstance>, EurekaApplicationViewModel>(
+                tuple => new EurekaApplicationViewModel(tuple.Item1, tuple.Item2),
+                viewModel => Tuple.Create(viewModel.Application, viewModel.Instance),
+                (tuple, viewModel) => viewModel.Update(),
+                (viewModel1, viewModel2) =>
+                {
+                    int r = string.CompareOrdinal(viewModel1.AppName, viewModel2.AppName);
+                    if (r == 0)
+                    {
+                        r = string.CompareOrdinal(viewModel1.HostName, viewModel2.HostName);
+                    }
+                    if (r == 0)
+                    {
+                        r = string.CompareOrdinal(viewModel1.InstanceId, viewModel2.InstanceId);
+                    }
+                    return r;
+                }
+            );
 
             ConnectCommand = new BasicCommand(() => !service.Connected, o => service.Connect());
             DisconnectCommand = new BasicCommand(() => service.Connected, o => service.Disconnect());
@@ -32,24 +54,35 @@ namespace CloudAppBrowser.ViewModels.Services.Eureka
             DeregisterApplicationsCommand = new BasicCommand(() => service.Connected && SelectedApplications.Count > 0, o => DeregisterApplications());
 
             SelectedApplications.CollectionChanged += (sender, args) => { DeregisterApplicationsCommand.UpdateState(); };
+            service.StateChanged += () => appBrowserViewModel.ViewContext.Invoke(Update);
 
-            service.StateChanged += () => ViewContext.Instance.Invoke(UpdateViewModel);
+            Update();
         }
 
-        private void UpdateViewModel()
+        public string ModuleName { get; set; }
+
+        public IEnumerable<IModuleViewModel> GetSubModules()
         {
-            Applications.Clear();
-            foreach (EurekaApplication application in service.Applications.OrderBy(a => a.Name))
-            {
-                foreach (EurekaApplicationInstance instance in application.Instances)
-                {
-                    EurekaApplicationViewModel appViewModel = new EurekaApplicationViewModel();
-                    appViewModel.AppName = application.Name;
-                    appViewModel.InstanceId = instance.InstanceId;
-                    appViewModel.HostName = instance.HostName;
-                    Applications.Add(appViewModel);
-                }
-            }
+            return Enumerable.Empty<IModuleViewModel>();
+        }
+
+        public event Action SubModulesChanged;
+
+        public IService Service
+        {
+            get { return service; }
+        }
+
+        public ServiceType ServiceType
+        {
+            get { return ServiceType.Eureka; }
+        }
+
+        public void Update()
+        {
+            ModuleName = service.Name;
+
+            appMapper.UpdateCollection(service.Applications.SelectMany(app => app.Instances.Select(inst => Tuple.Create(app, inst))), Applications);
 
             RefreshCommand.UpdateState();
             ConnectCommand.UpdateState();

@@ -10,10 +10,10 @@
         <TableLayout>
           <TableRow>
             <TableCell>
-              <Label Text="Name:" />
+              <Label Text="Service Name:" />
             </TableCell>
             <TableCell>
-              <TextBox Text="{Binding Name}" />
+              <TextBox Text="{Binding ServiceName}" />
             </TableCell>
           </TableRow>
           <TableRow>

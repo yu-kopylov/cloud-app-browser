@@ -5,9 +5,9 @@ using CloudAppBrowser.ViewModels.Services.Eureka;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
 
-namespace CloudAppBrowser.Views.Services
+namespace CloudAppBrowser.Views.Services.Eureka
 {
-    public class EurekaSubsystemView : Panel
+    public class EurekaServiceView : Panel
     {
         protected GridView ApplicationsGridView;
 
@@ -15,7 +15,7 @@ namespace CloudAppBrowser.Views.Services
         protected TextBoxCell InstanceIdCell;
         protected TextBoxCell HostNameCell;
 
-        public EurekaSubsystemView()
+        public EurekaServiceView()
         {
             XamlReader.Load(this);
 

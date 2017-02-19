@@ -174,7 +174,7 @@ namespace CloudAppBrowser.ViewModels.Annotations
   ///
   ///   string _name;
   /// 
-  ///   public string Name {
+  ///   public string ModuleName {
   ///     get { return _name; }
   ///     set { _name = value; NotifyChanged("LastName"); /* Warning */ }
   ///   }

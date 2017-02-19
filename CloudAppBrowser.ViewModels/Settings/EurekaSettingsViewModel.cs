@@ -2,7 +2,7 @@
 {
     public class EurekaSettingsViewModel
     {
-        public string Name { get; set; }
+        public string ServiceName { get; set; }
         public string Url { get; set; }
     }
 }

@@ -6,6 +6,8 @@ using CloudAppBrowser.ViewModels.Services.Docker;
 using CloudAppBrowser.ViewModels.Services.Eureka;
 using CloudAppBrowser.ViewModels.Settings;
 using CloudAppBrowser.Views.Services;
+using CloudAppBrowser.Views.Services.Docker;
+using CloudAppBrowser.Views.Services.Eureka;
 using CloudAppBrowser.Views.Settings;
 using Eto.Forms;
 
@@ -19,9 +21,9 @@ namespace CloudAppBrowser.Views
 
         public ViewResolver()
         {
-            constructors.Add(typeof(AppEnvironmentViewModel), () => new AppEnvironmentSubsystemView());
-            constructors.Add(typeof(DockerServiceViewModel), () => new DockerSubsystemView());
-            constructors.Add(typeof(EurekaServiceViewModel), () => new EurekaSubsystemView());
+            constructors.Add(typeof(AppEnvironmentViewModel), () => new AppEnvironmentView());
+            constructors.Add(typeof(DockerServiceViewModel), () => new DockerServiceView());
+            constructors.Add(typeof(EurekaServiceViewModel), () => new EurekaServiceView());
             constructors.Add(typeof(EurekaSettingsViewModel), () => new EurekaSettingsDialog());
             constructors.Add(typeof(DockerSettingsViewModel), () => new DockerSettingsDialog());
         }

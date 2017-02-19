@@ -6,14 +6,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using CloudAppBrowser.Core.Services;
 using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels.Annotations;
 
 namespace CloudAppBrowser.ViewModels.Services.Docker
 {
-    public class DockerServiceViewModel : ISubsystemViewModel, INotifyPropertyChanged, IDisposable
+    public class DockerServiceViewModel : IServiceViewModel, INotifyPropertyChanged, IDisposable
     {
-        public string Name { get; set; }
+        private readonly ObservableCollectionMapper<DockerContainer, DockerContainerViewModel> containersMapper;
+
         public ObservableCollection<DockerContainerViewModel> Containers { get; } = new ObservableCollection<DockerContainerViewModel>();
         public ObservableCollection<DockerContainerViewModel> SelectedContainers { get; } = new ObservableCollection<DockerContainerViewModel>();
         private DockerContainerViewModel selectedContainer;
@@ -24,6 +26,7 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
         public BasicCommand StartContainersCommand { get; }
         public BasicCommand StopContainersCommand { get; }
 
+        private readonly AppBrowserViewModel appBrowserViewModel;
         private readonly DockerService service;
 
         private readonly Timer timer;
@@ -31,10 +34,26 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
         private readonly HashSet<string> updatedLogs = new HashSet<string>();
         private readonly object updatedLogsMonitor = new object();
 
-        public DockerServiceViewModel(DockerService service)
+        public DockerServiceViewModel(AppBrowserViewModel appBrowserViewModel, DockerService service)
         {
+            this.appBrowserViewModel = appBrowserViewModel;
             this.service = service;
-            Name = service.Name;
+            ModuleName = service.Name;
+
+            containersMapper = new ObservableCollectionMapper<DockerContainer, DockerContainerViewModel>(
+                container => new DockerContainerViewModel(service, container),
+                viewModel => viewModel.Container,
+                (container, viewModel) => viewModel.Update(),
+                (viewModel1, viewModel2) =>
+                {
+                    int r = string.CompareOrdinal(viewModel1.Image, viewModel2.Image);
+                    if (r == 0)
+                    {
+                        r = string.CompareOrdinal(viewModel1.Id, viewModel2.Id);
+                    }
+                    return r;
+                }
+            );
 
             ConnectCommand = new BasicCommand(() => !service.Connected, o => service.Connect());
             DisconnectCommand = new BasicCommand(() => service.Connected, o => service.Disconnect());
@@ -48,12 +67,42 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
                 StopContainersCommand.UpdateState();
             };
 
-            service.ContainersChanged += () => ViewContext.Instance.Invoke(UpdateContainerList);
+            service.ContainersChanged += () => appBrowserViewModel.ViewContext.Invoke(Update);
             service.LogChanged += UpdateLog;
 
-            UpdateContainerList();
+            Update();
 
             timer = new Timer(TimerCallback, null, 0, 500);
+        }
+
+        public string ModuleName { get; private set; }
+
+        public IEnumerable<IModuleViewModel> GetSubModules()
+        {
+            return Enumerable.Empty<IModuleViewModel>();
+        }
+
+        public event Action SubModulesChanged;
+
+        public IService Service
+        {
+            get { return service; }
+        }
+
+        public ServiceType ServiceType
+        {
+            get { return ServiceType.Docker; }
+        }
+
+        public void Update()
+        {
+            containersMapper.UpdateCollection(service.GetContainers(), Containers);
+
+            RefreshCommand.UpdateState();
+            ConnectCommand.UpdateState();
+            DisconnectCommand.UpdateState();
+            StartContainersCommand.UpdateState();
+            StopContainersCommand.UpdateState();
         }
 
         //todo: don't forget to call dispose
@@ -90,7 +139,7 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
                 if (log != null)
                 {
                     string localContainerId = containerId;
-                    ViewContext.Instance.Invoke(() =>
+                    appBrowserViewModel.ViewContext.Invoke(() =>
                     {
                         DockerContainerViewModel containerViewModel = Containers.FirstOrDefault(c => c.Id == localContainerId);
                         if (containerViewModel != null)
@@ -136,23 +185,6 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
         {
             List<string> containerIds = SelectedContainers.Select(c => c.Id).ToList();
             await service.StopContainers(containerIds);
-        }
-
-        private void UpdateContainerList()
-        {
-            Containers.Clear();
-            foreach (DockerContainer container in service.GetContainers().OrderBy(s => s.Image).ThenBy(s => s.Id))
-            {
-                DockerContainerViewModel containerViewModel = new DockerContainerViewModel(service, container);
-                containerViewModel.Log = service.GetLog(container.Id);
-                Containers.Add(containerViewModel);
-            }
-
-            RefreshCommand.UpdateState();
-            ConnectCommand.UpdateState();
-            DisconnectCommand.UpdateState();
-            StartContainersCommand.UpdateState();
-            StopContainersCommand.UpdateState();
         }
     }
 }

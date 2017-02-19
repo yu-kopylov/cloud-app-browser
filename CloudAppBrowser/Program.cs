@@ -13,13 +13,10 @@ namespace CloudAppBrowser
         static void Main(string[] args)
         {
             Application application = new Application(Platform.Detect);
-
-            ViewContext.Instance = new EtoViewContext();
-
             AppBrowser appBrowser = new AppBrowser();
+            AppBrowserViewModel appBrowserViewModel = new AppBrowserViewModel(appBrowser, new EtoViewContext());
 
-            MainFormViewModel viewModel = new MainFormViewModel(appBrowser);
-            MainForm mainForm = new MainForm(viewModel);
+            MainForm mainForm = new MainForm(appBrowserViewModel.MainForm);
 
             application.Run(mainForm);
         }

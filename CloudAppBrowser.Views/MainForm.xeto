@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Form
   xmlns="http://schema.picoe.ca/eto.forms" 
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Cloud App Browser"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:v="clr-namespace:CloudAppBrowser.Views.Services;assembly=CloudAppBrowser.Views"
+  Title="Cloud App Browser"
   Width="800"
   Height="640"
   >
@@ -18,14 +20,14 @@
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <TreeView ID="SubsystemTree"/>
+                  <v:ModulesTreeView ID="ModulesTree"/>
                 </TableCell>
               </TableRow>
             </TableLayout>
           </GroupBox>
         </Splitter.Panel1>
         <Splitter.Panel2>
-          <GroupBox ID="SubsystemPanel" Text="{Binding SubsystemName}">
+          <GroupBox ID="ModulePanel" Text="{Binding ModuleName}">
           </GroupBox>
         </Splitter.Panel2>
       </Splitter>

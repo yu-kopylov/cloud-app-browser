@@ -10,7 +10,12 @@ namespace CloudAppBrowser.Core
         {
             AppEnvironment environment = new AppEnvironment {Name = name};
             Environments.Add(environment);
+            EnvironmentsChanged?.Invoke();
             return environment;
         }
+
+        public delegate void EnvironmentsChangedEventHandler();
+
+        public event EnvironmentsChangedEventHandler EnvironmentsChanged;
     }
 }

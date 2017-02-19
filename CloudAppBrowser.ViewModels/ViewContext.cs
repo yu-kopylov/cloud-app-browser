@@ -4,8 +4,6 @@ namespace CloudAppBrowser.ViewModels
 {
     public abstract class ViewContext
     {
-        public static ViewContext Instance { get; set; }
-
         public abstract void Invoke(Action action);
 
         public abstract void MessageBox(string message, string caption);
