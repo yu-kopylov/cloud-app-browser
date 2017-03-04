@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using CloudAppBrowser.ViewModels;
 using CloudAppBrowser.ViewModels.Services.Docker;
 using Eto.Forms;
 using Eto.Serialization.Xaml;
@@ -21,22 +22,19 @@ namespace CloudAppBrowser.Views.Services.Docker
 
         protected DockerContainerView ContainerView;
 
+        private readonly ObservableCollectionWatcher<DockerContainerViewModel> containersCollectionWatcher;
+
         public DockerServiceView()
         {
             XamlReader.Load(this);
 
+            //todo: workaround for bug in Eto.Forms (probably related to https://github.com/picoe/Eto/issues/515)
+            containersCollectionWatcher = new ObservableCollectionWatcher<DockerContainerViewModel>(ContainersGridView.Invalidate);
+
             DataContextChanged += (sender, args) =>
             {
                 DockerServiceViewModel viewModel = DataContext as DockerServiceViewModel;
-                if (viewModel == null)
-                {
-                    return;
-                }
-                if (viewModel.Containers == null)
-                {
-                    return;
-                }
-                viewModel.Containers.CollectionChanged += (o, eventArgs) => BindCollectionItems(viewModel.Containers);
+                containersCollectionWatcher.SetCollection(viewModel?.Containers);
             };
 
             IdCell.Binding = Binding.Property<DockerContainerViewModel, string>(c => c.Id);
@@ -47,21 +45,13 @@ namespace CloudAppBrowser.Views.Services.Docker
             ContainersGridView.SelectionChanged += ContainersGridViewOnSelectionChanged;
         }
 
-        //todo: workaround for bug in Eto.Forms (probably related to https://github.com/picoe/Eto/issues/515)
-        private void BindCollectionItems(ObservableCollection<DockerContainerViewModel> containers)
+        protected override void Dispose(bool disposing)
         {
-            Dictionary<DockerContainerViewModel, PropertyChangedEventHandler> propertyChangedHandlers = new Dictionary<DockerContainerViewModel, PropertyChangedEventHandler>();
-            foreach (DockerContainerViewModel container in containers)
+            if (disposing)
             {
-                if (propertyChangedHandlers.ContainsKey(container))
-                {
-                    return;
-                }
-                //todo: there is a potential memory leak here
-                PropertyChangedEventHandler handler = (sender, args) => { ContainersGridView.Invalidate(); };
-                container.PropertyChanged += handler;
-                propertyChangedHandlers.Add(container, handler);
+                containersCollectionWatcher.SetCollection(null);
             }
+            base.Dispose(disposing);
         }
 
         private void ContainersGridViewOnSelectionChanged(object sender, EventArgs eventArgs)
