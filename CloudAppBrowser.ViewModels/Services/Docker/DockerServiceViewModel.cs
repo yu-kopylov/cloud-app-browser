@@ -14,8 +14,10 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
 {
     public class DockerServiceViewModel : IServiceViewModel, INotifyPropertyChanged, IDisposable
     {
+        private readonly ObservableCollectionMapper<DockerImage, DockerImageViewModel> imagesMapper;
         private readonly ObservableCollectionMapper<DockerContainer, DockerContainerViewModel> containersMapper;
 
+        public ObservableCollection<DockerImageViewModel> Images { get; } = new ObservableCollection<DockerImageViewModel>();
         public ObservableCollection<DockerContainerViewModel> Containers { get; } = new ObservableCollection<DockerContainerViewModel>();
         public ObservableCollection<DockerContainerViewModel> SelectedContainers { get; } = new ObservableCollection<DockerContainerViewModel>();
         private DockerContainerViewModel selectedContainer;
@@ -40,6 +42,21 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
             this.service = service;
             ModuleName = service.Name;
 
+            imagesMapper = new ObservableCollectionMapper<DockerImage, DockerImageViewModel>(
+                image => new DockerImageViewModel(service, image),
+                viewModel => viewModel.Image,
+                (image, viewModel) => viewModel.Update(),
+                (viewModel1, viewModel2) =>
+                {
+                    int r = string.CompareOrdinal(viewModel1.RepoTagsAsText, viewModel2.RepoTagsAsText);
+                    if (r == 0)
+                    {
+                        r = string.CompareOrdinal(viewModel1.Id, viewModel2.Id);
+                    }
+                    return r;
+                }
+            );
+
             containersMapper = new ObservableCollectionMapper<DockerContainer, DockerContainerViewModel>(
                 container => new DockerContainerViewModel(service, container),
                 viewModel => viewModel.Container,
@@ -57,7 +74,7 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
 
             ConnectCommand = new BasicCommand(() => !service.Connected, o => service.Connect());
             DisconnectCommand = new BasicCommand(() => service.Connected, o => service.Disconnect());
-            RefreshCommand = new BasicCommand(() => service.Connected, o => service.RefreshContainerList());
+            RefreshCommand = new BasicCommand(() => service.Connected, o => service.Refresh());
             StartContainersCommand = new BasicCommand(() => service.Connected && SelectedContainers.Count > 0, o => StartContainers());
             StopContainersCommand = new BasicCommand(() => service.Connected && SelectedContainers.Count > 0, o => StopContainers());
 
@@ -67,7 +84,7 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
                 StopContainersCommand.UpdateState();
             };
 
-            service.ContainersChanged += () => appBrowserViewModel.ViewContext.Invoke(Update);
+            service.StageChanged += () => appBrowserViewModel.ViewContext.Invoke(Update);
             service.LogChanged += UpdateLog;
 
             Update();
@@ -96,6 +113,7 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
 
         public void Update()
         {
+            imagesMapper.UpdateCollection(service.GetImages(), Images);
             containersMapper.UpdateCollection(service.GetContainers(), Containers);
 
             RefreshCommand.UpdateState();

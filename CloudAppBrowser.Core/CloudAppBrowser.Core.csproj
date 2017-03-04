@@ -67,6 +67,7 @@
     <Compile Include="CertificateUtils.cs" />
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Services\Docker\DockerContainerPort.cs" />
+    <Compile Include="Services\Docker\DockerImage.cs" />
     <Compile Include="Services\Docker\DockerLogReader.cs" />
     <Compile Include="Services\Docker\DockerContainer.cs" />
     <Compile Include="Services\Docker\DockerService.cs" />

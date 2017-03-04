@@ -46,6 +46,7 @@
     <Compile Include="ObservableCollectionMapper.cs" />
     <Compile Include="ObservableCollectionWatcher.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Services\Docker\DockerImageViewModel.cs" />
     <Compile Include="Services\IServiceViewModel.cs" />
     <Compile Include="Services\ModulesTreeViewModel.cs" />
     <Compile Include="Services\ServiceType.cs" />

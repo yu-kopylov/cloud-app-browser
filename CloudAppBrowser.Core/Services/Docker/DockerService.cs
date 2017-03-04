@@ -21,6 +21,7 @@ namespace CloudAppBrowser.Core.Services.Docker
         //todo: Dispose?
         private readonly object monitor = new object();
         private DockerClient client;
+        private readonly Dictionary<string, DockerImage> images = new Dictionary<string, DockerImage>();
         private readonly Dictionary<string, DockerContainer> containers = new Dictionary<string, DockerContainer>();
         private readonly Dictionary<string, DockerLogReader> logReaders = new Dictionary<string, DockerLogReader>();
 
@@ -34,7 +35,7 @@ namespace CloudAppBrowser.Core.Services.Docker
 
         public delegate void LogChangedEventHandler(string containerId);
 
-        public event Action ContainersChanged;
+        public event Action StageChanged;
         public event LogChangedEventHandler LogChanged;
 
         public bool Connected
@@ -60,7 +61,7 @@ namespace CloudAppBrowser.Core.Services.Docker
             DockerClientConfiguration config = new DockerClientConfiguration(uri, credentials);
             client = config.CreateClient();
 
-            await RefreshContainerList();
+            await Refresh();
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -76,13 +77,52 @@ namespace CloudAppBrowser.Core.Services.Docker
                     logReader.Stop();
                 }
                 logReaders.Clear();
+                images.Clear();
                 containers.Clear();
             }
 
-            ContainersChanged?.Invoke();
+            StageChanged?.Invoke();
         }
 
-        public async Task RefreshContainerList()
+        public async Task Refresh()
+        {
+            await RefreshImagesList();
+            await RefreshContainerList();
+            StageChanged?.Invoke();
+        }
+
+        private async Task RefreshImagesList()
+        {
+            ImagesListParameters listParameters = new ImagesListParameters();
+            listParameters.All = true;
+            IList<ImagesListResponse> responseImages = await client.Images.ListImagesAsync(listParameters);
+
+            lock (monitor)
+            {
+                HashSet<string> removedImageIds = new HashSet<string>(images.Keys);
+                foreach (ImagesListResponse responseImage in responseImages)
+                {
+                    removedImageIds.Remove(responseImage.ID);
+                    DockerImage dockerImage;
+                    if (!images.TryGetValue(responseImage.ID, out dockerImage))
+                    {
+                        dockerImage = new DockerImage();
+                        images.Add(responseImage.ID, dockerImage);
+                    }
+                    dockerImage.Id = responseImage.ID;
+                    dockerImage.Created = responseImage.Created;
+                    dockerImage.RepoTags = new List<string>(responseImage.RepoTags);
+                    dockerImage.Size = responseImage.Size;
+                    dockerImage.VirtualSize = responseImage.VirtualSize;
+                }
+                foreach (string imageId in removedImageIds)
+                {
+                    images.Remove(imageId);
+                }
+            }
+        }
+
+        private async Task RefreshContainerList()
         {
             ContainersListParameters listParameters = new ContainersListParameters();
             listParameters.All = true;
@@ -119,8 +159,6 @@ namespace CloudAppBrowser.Core.Services.Docker
                     }
                 }
             }
-
-            ContainersChanged?.Invoke();
         }
 
         public async Task StartContainers(List<string> containerIds)
@@ -130,7 +168,7 @@ namespace CloudAppBrowser.Core.Services.Docker
                 ContainerStartParameters startParameters = new ContainerStartParameters();
                 await client.Containers.StartContainerAsync(containerId, startParameters);
             }
-            await RefreshContainerList();
+            await Refresh();
         }
 
         public async Task StopContainers(List<string> containerIds)
@@ -140,7 +178,15 @@ namespace CloudAppBrowser.Core.Services.Docker
                 ContainerStopParameters stopParameters = new ContainerStopParameters();
                 await client.Containers.StopContainerAsync(containerId, stopParameters, CancellationToken.None);
             }
-            await RefreshContainerList();
+            await Refresh();
+        }
+
+        public IEnumerable<DockerImage> GetImages()
+        {
+            lock (monitor)
+            {
+                return new List<DockerImage>(images.Values);
+            }
         }
 
         public IEnumerable<DockerContainer> GetContainers()
