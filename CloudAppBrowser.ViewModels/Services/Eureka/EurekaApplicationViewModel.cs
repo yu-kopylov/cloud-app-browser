@@ -17,12 +17,14 @@ namespace CloudAppBrowser.ViewModels.Services.Eureka
         public string AppName { get; private set; }
         public string InstanceId { get; private set; }
         public string HostName { get; private set; }
+        public string Status { get; private set; }
 
         public void Update()
         {
             AppName = Application.Name;
             InstanceId = Instance.InstanceId;
             HostName = Instance.HostName;
+            Status = Instance.Status;
         }
     }
 }

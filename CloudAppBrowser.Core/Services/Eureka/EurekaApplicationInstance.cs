@@ -4,5 +4,6 @@
     {
         public string InstanceId { get; set; }
         public string HostName { get; set; }
+        public string Status { get; set; }
     }
 }

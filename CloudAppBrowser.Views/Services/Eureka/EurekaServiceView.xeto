@@ -36,6 +36,11 @@
               <TextBoxCell ID="HostNameCell" />
             </GridColumn.DataCell>
           </GridColumn>
+          <GridColumn HeaderText="Status">
+            <GridColumn.DataCell>
+              <TextBoxCell ID="StatusCell" />
+            </GridColumn.DataCell>
+          </GridColumn>
         </GridView>
       </TableCell>
     </TableRow>

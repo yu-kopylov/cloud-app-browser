@@ -35,6 +35,9 @@ namespace CloudAppBrowser.Core.Services.Eureka.Formats
         [JsonProperty("hostName")]
         public string HostName { get; set; }
 
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
         [JsonProperty("lastUpdatedTimestamp")]
         public long LastUpdatedTimestamp { get; set; }
     }

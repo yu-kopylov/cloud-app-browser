@@ -14,6 +14,7 @@ namespace CloudAppBrowser.Views.Services.Eureka
         protected TextBoxCell AppNameCell;
         protected TextBoxCell InstanceIdCell;
         protected TextBoxCell HostNameCell;
+        protected TextBoxCell StatusCell;
 
         public EurekaServiceView()
         {
@@ -22,6 +23,7 @@ namespace CloudAppBrowser.Views.Services.Eureka
             AppNameCell.Binding = Binding.Delegate<EurekaApplicationViewModel, string>(c => c.AppName);
             InstanceIdCell.Binding = Binding.Delegate<EurekaApplicationViewModel, string>(c => c.InstanceId);
             HostNameCell.Binding = Binding.Delegate<EurekaApplicationViewModel, string>(c => c.HostName);
+            StatusCell.Binding = Binding.Delegate<EurekaApplicationViewModel, string>(c => c.Status);
 
             ApplicationsGridView.SelectionChanged += ApplicationsGridViewOnSelectionChanged;
         }
