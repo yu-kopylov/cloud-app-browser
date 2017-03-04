@@ -9,8 +9,6 @@
       <TableCell>
         <StackLayout Orientation="Horizontal">
           <Button Text="Refresh" Command="{Binding RefreshCommand}" />
-          <Button Text="Connect" Command="{Binding ConnectCommand}" />
-          <Button Text="Disconnect" Command="{Binding DisconnectCommand}" />
         </StackLayout>
       </TableCell>
     </TableRow>

@@ -13,8 +13,6 @@
               <Button Text="Refresh" Command="{Binding RefreshCommand}" />
               <Button Text="Start" Command="{Binding StartContainersCommand}" />
               <Button Text="Stop" Command="{Binding StopContainersCommand}" />
-              <Button Text="Connect" Command="{Binding ConnectCommand}" />
-              <Button Text="Disconnect" Command="{Binding DisconnectCommand}" />
             </StackLayout>
           </TableCell>
         </TableRow>

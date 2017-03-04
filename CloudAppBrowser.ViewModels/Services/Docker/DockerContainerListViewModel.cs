@@ -15,15 +15,13 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
     {
         private readonly ObservableCollectionMapper<DockerContainer, DockerContainerViewModel> containersMapper;
 
-        public ObservableCollection<DockerContainerViewModel> Containers { get; } = new ObservableCollection<DockerContainerViewModel>();
-        public ObservableCollection<DockerContainerViewModel> SelectedContainers { get; } = new ObservableCollection<DockerContainerViewModel>();
-        private DockerContainerViewModel selectedContainer;
-
-        public BasicCommand ConnectCommand { get; }
-        public BasicCommand DisconnectCommand { get; }
         public BasicCommand RefreshCommand { get; }
         public BasicCommand StartContainersCommand { get; }
         public BasicCommand StopContainersCommand { get; }
+
+        public ObservableCollection<DockerContainerViewModel> Containers { get; } = new ObservableCollection<DockerContainerViewModel>();
+        public ObservableCollection<DockerContainerViewModel> SelectedContainers { get; } = new ObservableCollection<DockerContainerViewModel>();
+        private DockerContainerViewModel selectedContainer;
 
         private readonly AppBrowserViewModel appBrowserViewModel;
         private readonly DockerService service;
@@ -54,8 +52,6 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
                 }
             );
 
-            ConnectCommand = new BasicCommand(() => !service.Connected, o => service.Connect());
-            DisconnectCommand = new BasicCommand(() => service.Connected, o => service.Disconnect());
             RefreshCommand = new BasicCommand(() => service.Connected, o => service.Refresh());
             StartContainersCommand = new BasicCommand(() => service.Connected && SelectedContainers.Count > 0, o => StartContainers());
             StopContainersCommand = new BasicCommand(() => service.Connected && SelectedContainers.Count > 0, o => StopContainers());
@@ -88,8 +84,6 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
             containersMapper.UpdateCollection(service.GetContainers(), Containers);
 
             RefreshCommand.UpdateState();
-            ConnectCommand.UpdateState();
-            DisconnectCommand.UpdateState();
             StartContainersCommand.UpdateState();
             StopContainersCommand.UpdateState();
         }

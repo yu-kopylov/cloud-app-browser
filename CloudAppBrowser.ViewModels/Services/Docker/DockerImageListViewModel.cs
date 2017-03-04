@@ -13,6 +13,8 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
     {
         private readonly ObservableCollectionMapper<DockerImage, DockerImageViewModel> imagesMapper;
 
+        public BasicCommand RefreshCommand { get; }
+
         public ObservableCollection<DockerImageViewModel> Images { get; } = new ObservableCollection<DockerImageViewModel>();
         public ObservableCollection<DockerImageViewModel> SelectedImages { get; } = new ObservableCollection<DockerImageViewModel>();
         private DockerImageViewModel selectedImage;
@@ -41,6 +43,8 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
                 }
             );
 
+            RefreshCommand = new BasicCommand(() => service.Connected, o => service.Refresh());
+
             service.StageChanged += () => appBrowserViewModel.ViewContext.Invoke(Update);
 
             Update();
@@ -58,6 +62,8 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
         public void Update()
         {
             imagesMapper.UpdateCollection(service.GetImages(), Images);
+
+            RefreshCommand.UpdateState();
         }
 
         public DockerImageViewModel SelectedImage
