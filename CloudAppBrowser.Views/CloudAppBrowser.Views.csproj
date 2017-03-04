@@ -76,7 +76,6 @@
     <Compile Include="Services\Docker\DockerServiceView.xeto.cs">
       <DependentUpon>DockerServiceView.xeto</DependentUpon>
     </Compile>
-    <Compile Include="ViewResolver.cs" />
     <Compile Include="MainForm.xeto.cs">
       <DependentUpon>MainForm.xeto</DependentUpon>
     </Compile>

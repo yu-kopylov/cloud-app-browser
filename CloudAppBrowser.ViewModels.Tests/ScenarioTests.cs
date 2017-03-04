@@ -26,8 +26,6 @@ namespace CloudAppBrowser.ViewModels.Tests
 
         private class MockViewContext : ViewContext
         {
-            private readonly MockViewResolver viewResolver = new MockViewResolver();
-
             public override void Invoke(Action action)
             {
                 action();
@@ -38,17 +36,14 @@ namespace CloudAppBrowser.ViewModels.Tests
                 Console.WriteLine($"{caption}:{message}");
             }
 
-            public override IViewResolver ViewResolver
-            {
-                get { return viewResolver; }
-            }
-        }
-
-        private class MockViewResolver : IViewResolver
-        {
-            public bool ShowDialog(object viewModel)
+            public override bool ShowDialog(object viewModel)
             {
                 return true;
+            }
+
+            public override object CreatePanel(object viewModel)
+            {
+                throw new NotImplementedException();
             }
         }
     }

@@ -10,15 +10,18 @@ namespace CloudAppBrowser.Views
 {
     public class MainForm : Form
     {
+        private readonly AppBrowserViewModel appBrowserViewModel;
         private readonly MainFormViewModel viewModel;
 
         protected ModulesTreeView ModulesTree;
 
         protected GroupBox ModulePanel;
 
-        public MainForm(MainFormViewModel viewModel)
+        public MainForm(AppBrowserViewModel appBrowserViewModel)
         {
-            this.viewModel = viewModel;
+            this.appBrowserViewModel = appBrowserViewModel;
+            this.viewModel = appBrowserViewModel.MainForm;
+
             DataContext = viewModel;
 
             XamlReader.Load(this);
@@ -34,7 +37,7 @@ namespace CloudAppBrowser.Views
                 ModulePanel.RemoveAll();
                 if (viewModel.ModulesTree.SelectedModule != null)
                 {
-                    Panel panel = ViewResolver.Instance.CreatePanel(viewModel.ModulesTree.SelectedModule);
+                    Panel panel = (Panel) appBrowserViewModel.ViewContext.CreatePanel(viewModel.ModulesTree.SelectedModule);
                     ModulePanel.Content = panel;
                     ModulePanel.DataContext = viewModel.ModulesTree.SelectedModule;
                 }

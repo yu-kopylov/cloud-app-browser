@@ -1,7 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using CloudAppBrowser.Core;
 using CloudAppBrowser.ViewModels;
+using CloudAppBrowser.ViewModels.Services;
+using CloudAppBrowser.ViewModels.Services.Docker;
+using CloudAppBrowser.ViewModels.Services.Eureka;
+using CloudAppBrowser.ViewModels.Settings;
 using CloudAppBrowser.Views;
+using CloudAppBrowser.Views.Services;
+using CloudAppBrowser.Views.Services.Docker;
+using CloudAppBrowser.Views.Services.Eureka;
+using CloudAppBrowser.Views.Settings;
 using Eto;
 using Eto.Forms;
 
@@ -14,9 +23,11 @@ namespace CloudAppBrowser
         {
             Application application = new Application(Platform.Detect);
             AppBrowser appBrowser = new AppBrowser();
-            AppBrowserViewModel appBrowserViewModel = new AppBrowserViewModel(appBrowser, new EtoViewContext());
+            EtoViewContext viewContext = new EtoViewContext();
+            AppBrowserViewModel appBrowserViewModel = new AppBrowserViewModel(appBrowser, viewContext);
 
-            MainForm mainForm = new MainForm(appBrowserViewModel.MainForm);
+            MainForm mainForm = new MainForm(appBrowserViewModel);
+            viewContext.MainForm = mainForm;
 
             application.Run(mainForm);
         }
@@ -24,6 +35,21 @@ namespace CloudAppBrowser
 
     internal class EtoViewContext : ViewContext
     {
+        private readonly Dictionary<Type, Func<Panel>> constructors = new Dictionary<Type, Func<Panel>>();
+
+        public EtoViewContext()
+        {
+            constructors.Add(typeof(AppEnvironmentViewModel), () => new AppEnvironmentView());
+            constructors.Add(typeof(DockerServiceViewModel), () => new DockerServiceView());
+            constructors.Add(typeof(DockerImageListViewModel), () => new DockerImageListView());
+            constructors.Add(typeof(DockerContainerListViewModel), () => new DockerContainerListView());
+            constructors.Add(typeof(EurekaServiceViewModel), () => new EurekaServiceView());
+            constructors.Add(typeof(EurekaSettingsViewModel), () => new EurekaSettingsDialog());
+            constructors.Add(typeof(DockerSettingsViewModel), () => new DockerSettingsDialog());
+        }
+
+        public MainForm MainForm { get; set; }
+
         public override void Invoke(Action action)
         {
             Application.Instance.Invoke(action);
@@ -34,9 +60,27 @@ namespace CloudAppBrowser
             Eto.Forms.MessageBox.Show(message, caption, MessageBoxButtons.OK);
         }
 
-        public override IViewResolver ViewResolver
+        public override bool ShowDialog(object viewModel)
         {
-            get { return Views.ViewResolver.Instance; }
+            Dialog<bool> dialog = (Dialog<bool>) CreatePanel(viewModel);
+            dialog.DataContext = viewModel;
+            return dialog.ShowModal(MainForm);
+        }
+
+        public override object CreatePanel(object viewModel)
+        {
+            if (viewModel == null)
+            {
+                return null;
+            }
+            Func<Panel> constructor;
+            if (!constructors.TryGetValue(viewModel.GetType(), out constructor))
+            {
+                return null;
+            }
+            var panel = constructor();
+            panel.DataContext = viewModel;
+            return panel;
         }
     }
 }

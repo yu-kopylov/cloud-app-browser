@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="AppBrowserViewModel.cs" />
     <Compile Include="ApplicationLog.cs" />
-    <Compile Include="IViewResolver.cs" />
     <Compile Include="ObservableCollectionMapper.cs" />
     <Compile Include="ObservableCollectionWatcher.cs" />
     <Compile Include="Properties\Annotations.cs" />
