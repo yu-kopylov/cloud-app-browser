@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel
+  xmlns="http://schema.picoe.ca/eto.forms"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:v="clr-namespace:CloudAppBrowser.Views.Services.Docker;assembly=CloudAppBrowser.Views">
+  <TableLayout>
+    <TableRow>
+      <TableCell>
+        <StackLayout Orientation="Horizontal">
+          <Button Text="Refresh" Command="{Binding RefreshCommand}" />
+          <Button Text="Connect" Command="{Binding ConnectCommand}" />
+          <Button Text="Disconnect" Command="{Binding DisconnectCommand}" />
+        </StackLayout>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <GridView ID="ImagesGridView" AllowMultipleSelection="True"
+                  DataStore="{Binding Images}"
+                  SelectedItems="{Binding SelectedImages}"
+                  Height="200">
+          <GridColumn HeaderText="Id">
+            <GridColumn.DataCell>
+              <TextBoxCell ID="IdCell" />
+            </GridColumn.DataCell>
+          </GridColumn>
+          <GridColumn HeaderText="Created">
+            <GridColumn.DataCell>
+              <TextBoxCell ID="CreatedCell" />
+            </GridColumn.DataCell>
+          </GridColumn>
+          <GridColumn HeaderText="Repo Tags">
+            <GridColumn.DataCell>
+              <TextBoxCell ID="RepoTagsCell" />
+            </GridColumn.DataCell>
+          </GridColumn>
+          <GridColumn HeaderText="Size">
+            <GridColumn.DataCell>
+              <TextBoxCell ID="SizeCell" />
+            </GridColumn.DataCell>
+          </GridColumn>
+          <GridColumn HeaderText="Virtual Size">
+            <GridColumn.DataCell>
+              <TextBoxCell ID="VirtualSizeCell" />
+            </GridColumn.DataCell>
+          </GridColumn>
+        </GridView>
+      </TableCell>
+    </TableRow>
+  </TableLayout>
+</Panel>

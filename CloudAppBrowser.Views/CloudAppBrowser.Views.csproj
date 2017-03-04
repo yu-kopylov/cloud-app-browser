@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\Docker\DockerImageListView.xeto.cs">
+      <DependentUpon>DockerImageListView.xeto</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Docker\DockerContainerListView.xeto.cs">
+      <DependentUpon>DockerContainerListView.xeto</DependentUpon>
+    </Compile>
     <Compile Include="Services\ModulesTreeView.xeto.cs">
       <DependentUpon>ModulesTreeView.xeto</DependentUpon>
     </Compile>
@@ -105,6 +111,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Services\ModulesTreeView.xeto">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\Docker\DockerImageListView.xeto">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\Docker\DockerContainerListView.xeto">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

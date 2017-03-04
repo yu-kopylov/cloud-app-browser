@@ -23,6 +23,8 @@ namespace CloudAppBrowser.Views
         {
             constructors.Add(typeof(AppEnvironmentViewModel), () => new AppEnvironmentView());
             constructors.Add(typeof(DockerServiceViewModel), () => new DockerServiceView());
+            constructors.Add(typeof(DockerImageListViewModel), () => new DockerImageListView());
+            constructors.Add(typeof(DockerContainerListViewModel), () => new DockerContainerListView());
             constructors.Add(typeof(EurekaServiceViewModel), () => new EurekaServiceView());
             constructors.Add(typeof(EurekaSettingsViewModel), () => new EurekaSettingsDialog());
             constructors.Add(typeof(DockerSettingsViewModel), () => new DockerSettingsDialog());

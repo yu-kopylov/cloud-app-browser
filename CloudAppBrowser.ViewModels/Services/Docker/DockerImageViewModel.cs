@@ -89,15 +89,15 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
             const long kb = 1024;
             const long mb = kb * kb;
 
-            if (size < 16 * kb)
+            if (size < 10000)
             {
-                return $"{size}B";
+                return $"{size} B";
             }
-            if (size < 16 * mb)
+            if (size < 10000 * kb)
             {
-                return $"{size / kb}KB";
+                return $"{size / kb} KB";
             }
-            return $"{size / mb}MB";
+            return $"{size / mb} MB";
         }
     }
 }
