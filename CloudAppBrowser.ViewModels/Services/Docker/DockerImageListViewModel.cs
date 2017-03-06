@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using CloudAppBrowser.Core.Services.Docker;
 using CloudAppBrowser.ViewModels.Annotations;
 
@@ -14,6 +15,7 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
         private readonly ObservableCollectionMapper<DockerImage, DockerImageViewModel> imagesMapper;
 
         public BasicCommand RefreshCommand { get; }
+        public BasicCommand DeleteImagesCommand { get; }
 
         public ObservableCollection<DockerImageViewModel> Images { get; } = new ObservableCollection<DockerImageViewModel>();
         public ObservableCollection<DockerImageViewModel> SelectedImages { get; } = new ObservableCollection<DockerImageViewModel>();
@@ -48,6 +50,9 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
             );
 
             RefreshCommand = new BasicCommand(() => service.Connected, o => service.Refresh());
+            DeleteImagesCommand = new BasicCommand(() => service.Connected && SelectedImages.Count > 0, o => DeleteImages());
+
+            SelectedImages.CollectionChanged += (sender, args) => { DeleteImagesCommand.UpdateState(); };
 
             service.StageChanged += () => appBrowserViewModel.ViewContext.Invoke(Update);
 
@@ -68,6 +73,7 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
             imagesMapper.UpdateCollection(service.GetImages(), Images);
 
             RefreshCommand.UpdateState();
+            DeleteImagesCommand.UpdateState();
         }
 
         public DockerImageViewModel SelectedImage
@@ -86,6 +92,12 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private async Task DeleteImages()
+        {
+            List<string> imageIds = SelectedImages.Select(c => c.Id).ToList();
+            await service.DeleteImages(imageIds);
         }
     }
 }

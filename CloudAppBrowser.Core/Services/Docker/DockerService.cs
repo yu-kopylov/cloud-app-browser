@@ -162,6 +162,16 @@ namespace CloudAppBrowser.Core.Services.Docker
             }
         }
 
+        public async Task DeleteImages(List<string> imageIds)
+        {
+            foreach (string imageId in imageIds)
+            {
+                ImageDeleteParameters deleteParameters = new ImageDeleteParameters();
+                await client.Images.DeleteImageAsync(imageId, deleteParameters);
+            }
+            await Refresh();
+        }
+
         public async Task StartContainers(List<string> containerIds)
         {
             foreach (string containerId in containerIds)
