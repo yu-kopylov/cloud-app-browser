@@ -33,6 +33,11 @@
               <TextBoxCell ID="RepoTagsCell" />
             </GridColumn.DataCell>
           </GridColumn>
+          <GridColumn HeaderText="Repo Digests">
+            <GridColumn.DataCell>
+              <TextBoxCell ID="RepoDigestsCell" />
+            </GridColumn.DataCell>
+          </GridColumn>
           <GridColumn HeaderText="Size">
             <GridColumn.DataCell>
               <TextBoxCell ID="SizeCell" />

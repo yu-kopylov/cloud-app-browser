@@ -18,6 +18,7 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
         private string sizeAsText;
         private string virtualSizeAsText;
         private string repoTagsAsText;
+        private string repoDigestsAsText;
 
         public DockerImageViewModel(DockerService service, DockerImage image)
         {
@@ -70,12 +71,23 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
             }
         }
 
+        public string RepoDigestsAsText
+        {
+            get { return repoDigestsAsText; }
+            set
+            {
+                repoDigestsAsText = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void Update()
         {
             CreatedAsText = Image.Created.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
             SizeAsText = FormatSize(Image.Size);
             VirtualSizeAsText = FormatSize(Image.VirtualSize);
             RepoTagsAsText = string.Join(", ", Image.RepoTags.OrderBy(t => t));
+            RepoDigestsAsText = string.Join(", ", Image.RepoDigests.OrderBy(t => t));
         }
 
         [NotifyPropertyChangedInvocator]

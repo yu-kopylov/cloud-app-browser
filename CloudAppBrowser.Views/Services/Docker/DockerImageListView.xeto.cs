@@ -14,6 +14,7 @@ namespace CloudAppBrowser.Views.Services.Docker
 
         protected TextBoxCell IdCell;
         protected TextBoxCell RepoTagsCell;
+        protected TextBoxCell RepoDigestsCell;
         protected TextBoxCell CreatedCell;
         protected TextBoxCell SizeCell;
         protected TextBoxCell VirtualSizeCell;
@@ -35,6 +36,7 @@ namespace CloudAppBrowser.Views.Services.Docker
 
             IdCell.Binding = Binding.Property<DockerImageViewModel, string>(c => c.Id);
             RepoTagsCell.Binding = Binding.Property<DockerImageViewModel, string>(c => c.RepoTagsAsText);
+            RepoDigestsCell.Binding = Binding.Property<DockerImageViewModel, string>(c => c.RepoDigestsAsText);
             CreatedCell.Binding = Binding.Property<DockerImageViewModel, string>(c => c.CreatedAsText);
             SizeCell.Binding = Binding.Property<DockerImageViewModel, string>(c => c.SizeAsText);
             VirtualSizeCell.Binding = Binding.Property<DockerImageViewModel, string>(c => c.VirtualSizeAsText);

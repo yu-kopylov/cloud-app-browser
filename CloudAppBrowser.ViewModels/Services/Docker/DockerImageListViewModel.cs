@@ -37,6 +37,10 @@ namespace CloudAppBrowser.ViewModels.Services.Docker
                     int r = string.CompareOrdinal(viewModel1.RepoTagsAsText, viewModel2.RepoTagsAsText);
                     if (r == 0)
                     {
+                        r = string.CompareOrdinal(viewModel1.RepoDigestsAsText, viewModel2.RepoDigestsAsText);
+                    }
+                    if (r == 0)
+                    {
                         r = string.CompareOrdinal(viewModel1.Id, viewModel2.Id);
                     }
                     return r;

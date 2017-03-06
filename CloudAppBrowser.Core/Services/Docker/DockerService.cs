@@ -112,6 +112,7 @@ namespace CloudAppBrowser.Core.Services.Docker
                     dockerImage.Id = responseImage.ID;
                     dockerImage.Created = responseImage.Created;
                     dockerImage.RepoTags = new List<string>(responseImage.RepoTags ?? Enumerable.Empty<string>());
+                    dockerImage.RepoDigests = new List<string>(responseImage.RepoDigests ?? Enumerable.Empty<string>());
                     dockerImage.Size = responseImage.Size;
                     dockerImage.VirtualSize = responseImage.VirtualSize;
                 }
