@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<Panel
+<Panel Width="800" Height="640"
   xmlns="http://schema.picoe.ca/eto.forms"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:v="clr-namespace:CloudAppBrowser.Views.Services.Docker;assembly=CloudAppBrowser.Views">
-  <Splitter Orientation="Vertical">
+  <Splitter Orientation="Vertical" Position="440" FixedPanel="Panel2">
     <Splitter.Panel1>
       <TableLayout>
         <TableRow>
@@ -20,8 +20,7 @@
           <TableCell>
             <GridView ID="ContainersGridView" AllowMultipleSelection="True"
                       DataStore="{Binding Containers}"
-                      SelectedItems="{Binding SelectedContainers}"
-                      Height="200">
+                      SelectedItems="{Binding SelectedContainers}">
               <GridColumn HeaderText="Id">
                 <GridColumn.DataCell>
                   <TextBoxCell ID="IdCell" />

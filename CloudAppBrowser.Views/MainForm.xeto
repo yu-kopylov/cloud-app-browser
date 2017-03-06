@@ -7,9 +7,9 @@
   Width="800"
   Height="640"
   >
-  <Splitter Orientation="Vertical" Position="400">
+  <Splitter Orientation="Vertical" Position="440" FixedPanel="Panel2">
     <Splitter.Panel1>
-      <Splitter Position="200">
+      <Splitter Position="200" FixedPanel="Panel1">
         <Splitter.Panel1>
           <GroupBox Text="Environments">
             <TableLayout>
