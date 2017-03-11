@@ -21,7 +21,7 @@
             <GridView ID="ContainersGridView" AllowMultipleSelection="True"
                       DataStore="{Binding Containers}"
                       SelectedItems="{Binding SelectedContainers}">
-              <GridColumn HeaderText="Id">
+              <GridColumn HeaderText="ID">
                 <GridColumn.DataCell>
                   <TextBoxCell ID="IdCell" />
                 </GridColumn.DataCell>
@@ -31,7 +31,7 @@
                   <TextBoxCell ID="ImageCell" />
                 </GridColumn.DataCell>
               </GridColumn>
-              <GridColumn HeaderText="ImageId">
+              <GridColumn HeaderText="Image ID">
                 <GridColumn.DataCell>
                   <TextBoxCell ID="ImageIdCell" />
                 </GridColumn.DataCell>

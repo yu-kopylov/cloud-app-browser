@@ -19,7 +19,7 @@
                   DataStore="{Binding Images}"
                   SelectedItems="{Binding SelectedImages}"
                   Height="200">
-          <GridColumn HeaderText="Id">
+          <GridColumn HeaderText="ID">
             <GridColumn.DataCell>
               <TextBoxCell ID="IdCell" />
             </GridColumn.DataCell>

@@ -2,30 +2,48 @@
 <Panel
   xmlns="http://schema.picoe.ca/eto.forms" 
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  >
+  xmlns:c="clr-namespace:CloudAppBrowser.Views.Controls;assembly=CloudAppBrowser.Views">
   <TabControl>
     <TabPage Text="Info">
       <TableLayout>
         <TableRow>
-          <TableCell>Image: </TableCell>
           <TableCell>
-            <Label Text="{Binding Image}"/>
+            <c:SelectableLabel>ID:</c:SelectableLabel>
+          </TableCell>
+          <TableCell>
+            <c:SelectableLabel Text="{Binding Id}"/>
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell>Created: </TableCell>
           <TableCell>
-            <StackLayout>
-              <Label Text="{Binding Created}"/>
-            </StackLayout>
+            <c:SelectableLabel>Image:</c:SelectableLabel>
+          </TableCell>
+          <TableCell>
+            <c:SelectableLabel Text="{Binding Image}"/>
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell>Ports: </TableCell>
           <TableCell>
-            <StackLayout>
-              <Label Text="{Binding PortsAsText}"/>
-            </StackLayout>
+            <c:SelectableLabel>Image ID:</c:SelectableLabel>
+          </TableCell>
+          <TableCell>
+            <c:SelectableLabel Text="{Binding ImageId}"/>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>
+            <c:SelectableLabel>Created:</c:SelectableLabel>
+          </TableCell>
+          <TableCell>
+            <c:SelectableLabel Text="{Binding Created}"/>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>
+            <c:SelectableLabel>Ports:</c:SelectableLabel>
+          </TableCell>
+          <TableCell>
+            <c:SelectableLabel Text="{Binding PortsAsText}"/>
           </TableCell>
         </TableRow>
       </TableLayout>

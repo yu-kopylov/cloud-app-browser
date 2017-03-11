@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\SelectableLabel.cs" />
     <Compile Include="Services\Docker\DockerImageListView.xeto.cs">
       <DependentUpon>DockerImageListView.xeto</DependentUpon>
     </Compile>
